@@ -1,3 +1,5 @@
+import ParticleNetwork from "./components/ParticleNetwork";
+
 const projects = [
   {
     name: "Industrial IoT Platform",
@@ -77,8 +79,9 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="min-h-screen flex flex-col justify-center px-6 md:px-16 pt-20">
-        <div className="max-w-5xl">
+      <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-16 pt-20">
+        <ParticleNetwork />
+        <div className="relative z-10 max-w-5xl">
           <p className="text-gray-600 text-xs tracking-[0.3em] mb-6 uppercase">
             portfolio — 2026
           </p>
@@ -123,6 +126,7 @@ export default function Home() {
       </section>
 
       {/* About */}
+
       <section id="about" className="px-6 md:px-16 py-24 max-w-4xl">
         <p className="text-gray-600 text-xs tracking-[0.3em] mb-6 uppercase">
           01 / about
