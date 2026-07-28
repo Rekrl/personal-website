@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { THEME_CHANGE_EVENT } from "./ThemeToggle";
 
 interface Particle {
   x: number;
@@ -8,12 +9,29 @@ interface Particle {
   vx: number;
   vy: number;
   radius: number;
-  color: string;
+  colorIndex: number;
 }
 
 const PARTICLE_COUNT = 70;
 const MAX_DISTANCE = 140;
-const COLORS = ["#00ffff", "#00ffff", "#00ffff", "#ff00cc", "#9b27af"];
+
+const PALETTES: Record<"dark" | "light", { dots: string[]; line: string }> = {
+  dark: {
+    dots: ["#00ffff", "#00ffff", "#00ffff", "#ff00cc", "#9b27af"],
+    line: "0, 255, 255",
+  },
+  light: {
+    dots: ["#0e7490", "#0e7490", "#0e7490", "#be185d", "#7e22ce"],
+    line: "14, 116, 144",
+  },
+};
+
+function currentTheme(): "dark" | "light" {
+  if (typeof document === "undefined") return "dark";
+  return document.documentElement.getAttribute("data-theme") === "light"
+    ? "light"
+    : "dark";
+}
 
 export default function ParticleNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -30,6 +48,8 @@ export default function ParticleNetwork() {
     const canvas: HTMLCanvasElement = el;
     const ctx: CanvasRenderingContext2D = context;
 
+    let palette = PALETTES[currentTheme()];
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -44,7 +64,7 @@ export default function ParticleNetwork() {
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         radius: Math.random() * 1.5 + 0.5,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        colorIndex: Math.floor(Math.random() * palette.dots.length),
       })
     );
 
@@ -61,7 +81,7 @@ export default function ParticleNetwork() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
+        ctx.fillStyle = palette.dots[p.colorIndex % palette.dots.length];
         ctx.fill();
       }
 
@@ -76,7 +96,7 @@ export default function ParticleNetwork() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 255, 255, ${opacity})`;
+            ctx.strokeStyle = `rgba(${palette.line}, ${opacity})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -88,10 +108,16 @@ export default function ParticleNetwork() {
 
     draw();
 
+    const handleThemeChange = () => {
+      palette = PALETTES[currentTheme()];
+    };
+
     window.addEventListener("resize", resize);
+    window.addEventListener(THEME_CHANGE_EVENT, handleThemeChange);
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
+      window.removeEventListener(THEME_CHANGE_EVENT, handleThemeChange);
     };
   }, []);
 

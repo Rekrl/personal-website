@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import ThemeToggle from "../../components/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Industrial IoT Platform — Nuno Santos",
@@ -14,7 +15,7 @@ const decisions = [
     decision:
       "Edge devices publish telemetry to a Mosquitto broker over MQTT (QoS 1) instead of calling a REST API.",
     why: "Pub/sub decouples the edge firmware from the ingestion service entirely — the ESP32 doesn't need to know who's listening. MQTT's overhead is a fraction of HTTP's for small, frequent payloads, and QoS 1 buys at-least-once delivery on flaky Wi-Fi without the four-way handshake cost of QoS 2.",
-    color: "#00ffff",
+    color: "var(--color-cyan)",
   },
   {
     tag: "extensibility",
@@ -22,7 +23,7 @@ const decisions = [
     decision:
       "Every sensor payload is normalised by a dedicated parser (Strategy pattern) into a fixed InfluxDB schema before it touches the database. No sensor-specific logic lives in the core services.",
     why: "New hardware becomes a new parser file, not a change to the pipeline, dashboard, or analysis service. In practice this held up: 16 sensor types were integrated at an average of ~45 lines of code each, with zero changes to the three core services.",
-    color: "#ff00cc",
+    color: "var(--color-magenta)",
   },
   {
     tag: "integrity",
@@ -30,7 +31,7 @@ const decisions = [
     decision:
       "Only the ingestion pipeline is allowed to write to the telemetry measurement. The dashboard and analysis service are strictly read-only against it.",
     why: "Removes an entire class of race conditions and makes the data lineage obvious: if something's wrong in the database, there's exactly one place to look. The analysis service still writes its own derived results to a separate measurement — raw readings stay immutable.",
-    color: "#9b27af",
+    color: "var(--color-purple)",
   },
   {
     tag: "ops",
@@ -38,7 +39,7 @@ const decisions = [
     decision:
       "A background job periodically queries InfluxDB for tag combinations that aren't yet in the sensor registry and auto-registers them with type-appropriate defaults — without ever overwriting a manually-configured entry.",
     why: "Plugging in a new sensor of an already-supported type should require zero code changes and zero redeploys. Manual entries always win the merge, so an operator's edits are never silently reverted by the next discovery cycle.",
-    color: "#ff6d00",
+    color: "var(--color-orange)",
   },
   {
     tag: "storage",
@@ -46,7 +47,7 @@ const decisions = [
     decision:
       "Time-series data lives in InfluxDB rather than PostgreSQL or MongoDB.",
     why: "Sensor telemetry is fundamentally a write-heavy time series with tag-based querying, retention policies, and downsampling as first-class needs — exactly InfluxDB's design center. A relational store would need bolt-on extensions to do the same job.",
-    color: "#00ffff",
+    color: "var(--color-cyan)",
   },
   {
     tag: "security",
@@ -54,7 +55,7 @@ const decisions = [
     decision:
       "The MQTT broker runs behind TLS 1.2 with a self-signed local CA, per-user credentials, and topic-level ACLs — no anonymous access, no plaintext fallback.",
     why: "Industrial networks aren't automatically trusted networks. Treating the broker as if it were internet-facing was a deliberate choice to avoid the common IIoT failure mode of 'it's internal, so it's fine.'",
-    color: "#ff00cc",
+    color: "var(--color-magenta)",
   },
   {
     tag: "performance",
@@ -62,7 +63,7 @@ const decisions = [
     decision:
       "The anomaly-detection loop processes assets one at a time rather than in parallel — and that limitation is measured and documented, not hidden.",
     why: "Benchmarking showed strictly linear O(N) scaling at ~107ms/asset, holding the 30s SLO up to ~280 concurrent assets. That's well beyond the platform's current scale, so parallelising by site_id was deliberately deferred rather than built speculatively.",
-    color: "#9b27af",
+    color: "var(--color-purple)",
   },
   {
     tag: "process",
@@ -70,7 +71,7 @@ const decisions = [
     decision:
       "A CLAUDE.md file encodes the schema, the single-writer rule, and naming conventions as hard constraints for AI-assisted coding, enforced through a PRD → issue → TDD → review pipeline.",
     why: "AI-assisted development is only as good as the guardrails around it. Treating the architecture doc as an enforceable contract — not just reference material — kept 313 automated tests and 56 resolved issues consistent with the schema throughout the build.",
-    color: "#ff6d00",
+    color: "var(--color-orange)",
   },
 ];
 
@@ -108,29 +109,32 @@ const stats = [
 
 export default function IndustrialIoTPlatform() {
   return (
-    <main className="min-h-screen bg-black text-white font-mono">
+    <main className="min-h-screen bg-background text-foreground font-mono">
       {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 px-6 md:px-16 py-4 flex items-center justify-between border-b border-white/10 bg-black/80 backdrop-blur-sm">
+      <nav className="fixed top-0 w-full z-50 px-6 md:px-16 py-4 flex items-center justify-between border-b border-border bg-nav backdrop-blur-sm">
         <Link
           href="/"
-          className="text-gray-400 hover:text-[#00ffff] transition-colors text-sm tracking-widest uppercase"
+          className="text-muted-3 hover:text-cyan transition-colors text-sm tracking-widest uppercase"
         >
           ← nuno santos
         </Link>
-        <span className="text-[#00ffff] font-bold text-sm tracking-widest uppercase hidden sm:inline">
-          case study
-        </span>
+        <div className="flex items-center gap-6">
+          <span className="text-cyan font-bold text-sm tracking-widest uppercase hidden sm:inline">
+            case study
+          </span>
+          <ThemeToggle />
+        </div>
       </nav>
 
       {/* Hero */}
-      <section className="px-6 md:px-16 pt-32 pb-16 border-b border-white/10">
-        <p className="text-gray-600 text-xs tracking-[0.3em] mb-6 uppercase">
+      <section className="px-6 md:px-16 pt-32 pb-16 border-b border-border">
+        <p className="text-muted-5 text-xs tracking-[0.3em] mb-6 uppercase">
           case study — internship project, STAR Institute
         </p>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-none mb-4 uppercase">
           Industrial IoT Platform
         </h1>
-        <p className="text-lg md:text-xl text-gray-300 mb-6 max-w-3xl">
+        <p className="text-lg md:text-xl text-muted-2 mb-6 max-w-3xl">
           A sensor-agnostic monitoring &amp; analysis platform for industrial
           environments — ingesting heterogeneous sensor data through a
           canonical schema, and turning it into anomaly alerts and risk scores
@@ -141,7 +145,7 @@ export default function IndustrialIoTPlatform() {
             (s) => (
               <span
                 key={s}
-                className="text-xs border border-white/10 px-2 py-1 text-gray-500"
+                className="text-xs border border-border px-2 py-1 text-muted-4"
               >
                 {s}
               </span>
@@ -151,18 +155,18 @@ export default function IndustrialIoTPlatform() {
       </section>
 
       {/* 01 / Overview */}
-      <section className="px-6 md:px-16 py-20 max-w-4xl border-b border-white/10">
-        <p className="text-gray-600 text-xs tracking-[0.3em] mb-8 uppercase">
+      <section className="px-6 md:px-16 py-20 max-w-4xl border-b border-border">
+        <p className="text-muted-5 text-xs tracking-[0.3em] mb-8 uppercase">
           01 / overview
         </p>
-        <div className="space-y-5 text-gray-300 leading-relaxed">
+        <div className="space-y-5 text-muted-2 leading-relaxed">
           <p>
             Industrial facilities generate telemetry from wildly heterogeneous
             hardware — energy meters, environmental sensors, vibration
             probes, flow sensors — each with its own registers, units, and
             firmware quirks. This platform was built during a curricular
             internship at{" "}
-            <span className="text-[#00ffff]">STAR Institute</span> to turn
+            <span className="text-cyan">STAR Institute</span> to turn
             that fragmentation into a single, queryable stream of decision-
             ready data.
           </p>
@@ -185,23 +189,23 @@ export default function IndustrialIoTPlatform() {
       </section>
 
       {/* 02 / Architecture */}
-      <section className="px-6 md:px-16 py-20 border-b border-white/10">
-        <p className="text-gray-600 text-xs tracking-[0.3em] mb-8 uppercase">
+      <section className="px-6 md:px-16 py-20 border-b border-border">
+        <p className="text-muted-5 text-xs tracking-[0.3em] mb-8 uppercase">
           02 / architecture
         </p>
-        <p className="text-gray-300 leading-relaxed max-w-3xl mb-10">
+        <p className="text-muted-2 leading-relaxed max-w-3xl mb-10">
           The system follows a three-tier IIoT topology — Edge, Platform, and
           Business — with a strict one-way data flow and a single writer at
           the persistence boundary.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-grid">
           {/* Edge Tier */}
-          <div className="bg-black p-6 border border-white/10 hover:border-[#00ffff] transition-colors">
-            <p className="text-[#00ffff] text-xs tracking-widest uppercase mb-4">
+          <div className="bg-surface p-6 border border-border hover:border-cyan transition-colors">
+            <p className="text-cyan text-xs tracking-widest uppercase mb-4">
               Edge Tier
             </p>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+            <p className="text-muted-3 text-sm leading-relaxed mb-4">
               Physical sensors + ESP32-S3 gateway. Polls Modbus RTU / I2C,
               builds a JSON envelope, publishes over MQTT (TLS).
             </p>
@@ -209,7 +213,7 @@ export default function IndustrialIoTPlatform() {
               {["SDM630MCT", "BME688", "WTVB01-485", "CoreS3"].map((s) => (
                 <span
                   key={s}
-                  className="text-xs border border-white/10 px-2 py-1 text-gray-600"
+                  className="text-xs border border-border px-2 py-1 text-muted-5"
                 >
                   {s}
                 </span>
@@ -218,11 +222,11 @@ export default function IndustrialIoTPlatform() {
           </div>
 
           {/* Platform Tier */}
-          <div className="bg-black p-6 border border-white/10 hover:border-[#ff00cc] transition-colors">
-            <p className="text-[#ff00cc] text-xs tracking-widest uppercase mb-4">
+          <div className="bg-surface p-6 border border-border hover:border-magenta transition-colors">
+            <p className="text-magenta text-xs tracking-widest uppercase mb-4">
               Platform Tier
             </p>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+            <p className="text-muted-3 text-sm leading-relaxed mb-4">
               Mosquitto broker + data-pipeline. Validates the data contract,
               resolves a parser by sensor_type, normalises fields, and is the
               sole writer to InfluxDB.
@@ -231,7 +235,7 @@ export default function IndustrialIoTPlatform() {
               {["Mosquitto", "Node.js pipeline", "InfluxDB 2.8"].map((s) => (
                 <span
                   key={s}
-                  className="text-xs border border-white/10 px-2 py-1 text-gray-600"
+                  className="text-xs border border-border px-2 py-1 text-muted-5"
                 >
                   {s}
                 </span>
@@ -240,11 +244,11 @@ export default function IndustrialIoTPlatform() {
           </div>
 
           {/* Business Tier */}
-          <div className="bg-black p-6 border border-white/10 hover:border-[#9b27af] transition-colors">
-            <p className="text-[#9b27af] text-xs tracking-widest uppercase mb-4">
+          <div className="bg-surface p-6 border border-border hover:border-purple transition-colors">
+            <p className="text-purple text-xs tracking-widest uppercase mb-4">
               Business Tier
             </p>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+            <p className="text-muted-3 text-sm leading-relaxed mb-4">
               FastAPI analysis service reads telemetry read-only, scores risk
               &amp; anomalies, and publishes alerts; a Node.js dashboard
               renders everything live.
@@ -253,7 +257,7 @@ export default function IndustrialIoTPlatform() {
               {["FastAPI", "Pandas", "Socket.IO", "Chart.js"].map((s) => (
                 <span
                   key={s}
-                  className="text-xs border border-white/10 px-2 py-1 text-gray-600"
+                  className="text-xs border border-border px-2 py-1 text-muted-5"
                 >
                   {s}
                 </span>
@@ -262,7 +266,7 @@ export default function IndustrialIoTPlatform() {
           </div>
         </div>
 
-        <p className="text-gray-500 text-sm mt-6 max-w-3xl leading-relaxed">
+        <p className="text-muted-4 text-sm mt-6 max-w-3xl leading-relaxed">
           Every tier is containerised via Docker Compose except the edge
           firmware itself — moving the platform to a new site is a config
           change, not a code change.
@@ -270,22 +274,22 @@ export default function IndustrialIoTPlatform() {
       </section>
 
       {/* 03 / Decisions */}
-      <section className="px-6 md:px-16 py-20 border-b border-white/10">
-        <p className="text-gray-600 text-xs tracking-[0.3em] mb-4 uppercase">
+      <section className="px-6 md:px-16 py-20 border-b border-border">
+        <p className="text-muted-5 text-xs tracking-[0.3em] mb-4 uppercase">
           03 / architectural decisions
         </p>
-        <p className="text-gray-300 leading-relaxed max-w-3xl mb-10">
+        <p className="text-muted-2 leading-relaxed max-w-3xl mb-10">
           The product surface (dashboards, charts) is the least interesting
           part of this project. What mattered was the set of tradeoffs made
           to keep the system extensible, correct, and honest about its own
           limits.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-grid">
           {decisions.map((d) => (
             <div
               key={d.title}
-              className="bg-black p-6 border border-white/10 transition-colors group"
+              className="bg-surface p-6 border border-border transition-colors group"
             >
               <p
                 className="text-xs tracking-widest uppercase mb-3"
@@ -294,11 +298,11 @@ export default function IndustrialIoTPlatform() {
                 {d.tag}
               </p>
               <h3 className="font-bold text-base mb-3">{d.title}</h3>
-              <p className="text-gray-300 text-sm leading-relaxed mb-3">
+              <p className="text-muted-2 text-sm leading-relaxed mb-3">
                 {d.decision}
               </p>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                <span className="text-gray-400">Why: </span>
+              <p className="text-muted-4 text-sm leading-relaxed">
+                <span className="text-muted-3">Why: </span>
                 {d.why}
               </p>
             </div>
@@ -307,21 +311,21 @@ export default function IndustrialIoTPlatform() {
       </section>
 
       {/* 04 / Stack */}
-      <section className="px-6 md:px-16 py-20 border-b border-white/10">
-        <p className="text-gray-600 text-xs tracking-[0.3em] mb-8 uppercase">
+      <section className="px-6 md:px-16 py-20 border-b border-border">
+        <p className="text-muted-5 text-xs tracking-[0.3em] mb-8 uppercase">
           04 / stack by layer
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stack.map((s) => (
             <div key={s.layer}>
-              <p className="text-gray-500 text-xs tracking-widest uppercase mb-3">
+              <p className="text-muted-4 text-xs tracking-widest uppercase mb-3">
                 {s.layer}
               </p>
               <div className="flex flex-wrap gap-2">
                 {s.items.map((i) => (
                   <span
                     key={i}
-                    className="text-xs border border-white/10 px-2 py-1 text-gray-400 hover:border-[#00ffff] hover:text-[#00ffff] transition-colors"
+                    className="text-xs border border-border px-2 py-1 text-muted-3 hover:border-cyan hover:text-cyan transition-colors"
                   >
                     {i}
                   </span>
@@ -333,26 +337,26 @@ export default function IndustrialIoTPlatform() {
       </section>
 
       {/* 05 / Results */}
-      <section className="px-6 md:px-16 py-20 border-b border-white/10">
-        <p className="text-gray-600 text-xs tracking-[0.3em] mb-8 uppercase">
+      <section className="px-6 md:px-16 py-20 border-b border-border">
+        <p className="text-muted-5 text-xs tracking-[0.3em] mb-8 uppercase">
           05 / validated at
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-white/5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-grid">
           {stats.map((s) => (
             <div
               key={s.label}
-              className="bg-black p-5 border border-white/10 hover:border-[#00ffff] transition-colors"
+              className="bg-surface p-5 border border-border hover:border-cyan transition-colors"
             >
-              <p className="text-2xl md:text-3xl font-bold text-[#00ffff] mb-1">
+              <p className="text-2xl md:text-3xl font-bold text-cyan mb-1">
                 {s.value}
               </p>
-              <p className="text-gray-500 text-xs leading-snug uppercase tracking-wide">
+              <p className="text-muted-4 text-xs leading-snug uppercase tracking-wide">
                 {s.label}
               </p>
             </div>
           ))}
         </div>
-        <p className="text-gray-500 text-sm mt-6 max-w-3xl leading-relaxed">
+        <p className="text-muted-4 text-sm mt-6 max-w-3xl leading-relaxed">
           Benchmarked with a synthetic-load harness against a scaled InfluxDB
           dataset; scaling stays linear up to ~280 concurrent assets before
           the 30s analysis SLO is missed — the known ceiling of the current
@@ -362,7 +366,7 @@ export default function IndustrialIoTPlatform() {
 
       {/* Footer / CTA */}
       <section className="px-6 md:px-16 py-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-        <p className="text-gray-400 text-sm max-w-md">
+        <p className="text-muted-3 text-sm max-w-md">
           Built solo, end to end — firmware, backend, analysis service, and
           dashboard — as a capstone project for a Computer Engineering
           degree.
@@ -370,7 +374,7 @@ export default function IndustrialIoTPlatform() {
         <div className="flex gap-4">
           <Link
             href="/#projects"
-            className="px-6 py-3 border border-white/20 text-gray-400 hover:border-[#ff00cc] hover:text-[#ff00cc] transition-all text-xs tracking-widest uppercase"
+            className="px-6 py-3 border border-border-strong text-muted-3 hover:border-magenta hover:text-magenta transition-all text-xs tracking-widest uppercase"
           >
             ← all projects
           </Link>
@@ -378,14 +382,14 @@ export default function IndustrialIoTPlatform() {
             href="https://github.com/Rekrl/IIoT-STARInstitute"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 border border-[#00ffff] text-[#00ffff] hover:bg-[#00ffff] hover:text-black transition-all text-xs tracking-widest uppercase"
+            className="px-6 py-3 border border-cyan text-cyan hover:bg-cyan hover:text-on-accent transition-all text-xs tracking-widest uppercase"
           >
             GitHub
           </a>
         </div>
       </section>
 
-      <footer className="px-6 md:px-16 py-6 border-t border-white/10 text-gray-700 text-xs flex justify-between">
+      <footer className="px-6 md:px-16 py-6 border-t border-border text-muted-6 text-xs flex justify-between">
         <span>Nuno Santos · 2026</span>
         <span>Built with Next.js + TypeScript</span>
       </footer>

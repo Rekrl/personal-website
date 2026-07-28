@@ -1,14 +1,72 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #000000;
-  --color-foreground: #ffffff;
-  --color-cyan: #00ffff;
-  --color-magenta: #ff00cc;
-  --color-purple: #9b27af;
-  --color-orange: #ff6d00;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-nav: var(--nav-bg);
+  --color-grid: var(--grid-line);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-muted-1: var(--muted-1);
+  --color-muted-2: var(--muted-2);
+  --color-muted-3: var(--muted-3);
+  --color-muted-4: var(--muted-4);
+  --color-muted-5: var(--muted-5);
+  --color-muted-6: var(--muted-6);
+  --color-cyan: var(--accent-cyan);
+  --color-magenta: var(--accent-magenta);
+  --color-purple: var(--accent-purple);
+  --color-orange: var(--accent-orange);
+  --color-on-accent: var(--on-accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* Dark is the CSS default (matches the site's original look and its
+   no-JS / no-stored-preference fallback). The inline theme script in
+   layout.tsx sets data-theme="light" only when the visitor has actively
+   chosen light mode; otherwise the site always boots dark. */
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --surface: #000000;
+  --nav-bg: rgba(0, 0, 0, 0.8);
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --muted-1: #e5e5e5;
+  --muted-2: #d4d4d4;
+  --muted-3: #a3a3a3;
+  --muted-4: #737373;
+  --muted-5: #525252;
+  --muted-6: #404040;
+  --accent-cyan: #00ffff;
+  --accent-magenta: #ff00cc;
+  --accent-purple: #9b27af;
+  --accent-orange: #ff6d00;
+  --on-accent: #000000;
+}
+
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --surface: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.8);
+  --grid-line: rgba(0, 0, 0, 0.07);
+  --border: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.16);
+  --muted-1: #262626;
+  --muted-2: #404040;
+  --muted-3: #525252;
+  --muted-4: #6b6b6b;
+  --muted-5: #8a8a8a;
+  --muted-6: #a3a3a3;
+  --accent-cyan: #0e7490;
+  --accent-magenta: #be185d;
+  --accent-purple: #7e22ce;
+  --accent-orange: #c2410c;
+  --on-accent: #ffffff;
 }
 
 * {
@@ -20,10 +78,11 @@ html {
 }
 
 body {
-  background: #000000;
-  color: #ffffff;
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-geist-mono);
   overflow-x: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Scanline overlay */
@@ -38,8 +97,14 @@ body::after {
     rgba(0, 0, 0, 0.06) 2px,
     rgba(0, 0, 0, 0.06) 4px
   );
+  mix-blend-mode: var(--scanline-blend, normal);
   pointer-events: none;
   z-index: 9999;
+}
+
+[data-theme="light"] body::after {
+  --scanline-blend: multiply;
+  opacity: 0.5;
 }
 
 /* Glitch text */
@@ -60,13 +125,13 @@ body::after {
 }
 
 .glitch::before {
-  color: #00ffff;
+  color: var(--accent-cyan);
   animation: glitch-1 5s infinite;
   left: -3px;
 }
 
 .glitch::after {
-  color: #ff00cc;
+  color: var(--accent-magenta);
   animation: glitch-2 5s infinite;
   left: 3px;
 }
@@ -113,6 +178,17 @@ body::after {
   }
 }
 
+/* Theme toggle label: show the theme you'd switch *to* */
+.theme-label-light {
+  display: none;
+}
+[data-theme="light"] .theme-label-dark {
+  display: none;
+}
+[data-theme="light"] .theme-label-light {
+  display: inline;
+}
+
 /* Cursor blink */
 .blink {
   animation: blink 1.2s step-end infinite;
@@ -128,8 +204,8 @@ body::after {
   width: 3px;
 }
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #00ffff;
+  background: var(--accent-cyan);
 }
