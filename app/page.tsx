@@ -1,8 +1,10 @@
+import Link from "next/link";
 import ParticleNetwork from "./components/ParticleNetwork";
 
 const projects = [
   {
     name: "Industrial IoT Platform",
+    slug: "industrial-iot-platform",
     description:
       "End-to-end industrial monitoring: ESP32 edge firmware → MQTT broker → Node.js pipeline → InfluxDB → real-time dashboard + FastAPI anomaly detection. Containerised with Docker.",
     stack: ["ESP32", "MQTT", "Node.js", "InfluxDB", "FastAPI", "Docker"],
@@ -11,6 +13,7 @@ const projects = [
   },
   {
     name: "E-learning Platform",
+    slug: "",
     description:
       "Full learning management system with course creation, real-time chat, progress tracking and media uploads. Graded 19/20.",
     stack: ["React", "Node.js", "PostgreSQL", "Socket.io"],
@@ -19,6 +22,7 @@ const projects = [
   },
   {
     name: "Company Website",
+    slug: "",
     description:
       "Full company website built from scratch: product catalog, contact form, and WhatsApp API integration for automated client communication.",
     stack: ["HTML/CSS/JS", "PHP", "MySQL", "WhatsApp API"],
@@ -150,31 +154,51 @@ export default function Home() {
           02 / projects
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
-          {projects.map((p) => (
-            <div
-              key={p.name}
-              className={`bg-black p-6 border border-white/10 ${p.cardHover} transition-colors group cursor-default`}
-            >
-              <h3
-                className={`font-bold text-base mb-3 ${p.titleHover} transition-colors`}
-              >
-                {p.name}
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-5">
-                {p.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {p.stack.map((s) => (
+          {projects.map((p) => {
+            const content = (
+              <>
+                <h3
+                  className={`font-bold text-base mb-3 ${p.titleHover} transition-colors`}
+                >
+                  {p.name}
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-5">
+                  {p.description}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {p.stack.map((s) => (
+                    <span
+                      key={s}
+                      className="text-xs border border-white/10 px-2 py-1 text-gray-600"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                {p.slug && (
                   <span
-                    key={s}
-                    className="text-xs border border-white/10 px-2 py-1 text-gray-600"
+                    className={`text-xs tracking-widest uppercase text-gray-600 ${p.titleHover} transition-colors`}
                   >
-                    {s}
+                    Read case study →
                   </span>
-                ))}
+                )}
+              </>
+            );
+
+            const className = `block bg-black p-6 border border-white/10 ${p.cardHover} transition-colors group ${
+              p.slug ? "cursor-pointer" : "cursor-default"
+            }`;
+
+            return p.slug ? (
+              <Link key={p.name} href={`/projects/${p.slug}`} className={className}>
+                {content}
+              </Link>
+            ) : (
+              <div key={p.name} className={className}>
+                {content}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
