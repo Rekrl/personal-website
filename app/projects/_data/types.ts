@@ -4,12 +4,6 @@
 export type Accent = "cyan" | "magenta" | "purple" | "orange";
 export type Status = "shipped" | "in-progress" | "prototype";
 
-export const STATUS_LABEL: Record<Status, string> = {
-  shipped: "shipped",
-  "in-progress": "in progress",
-  prototype: "prototype",
-};
-
 // ---------------------------------------------------------------------------
 // Diagram spec — interpreted by <CaseArchitecture>. Positions are hand-placed
 // on a 4px grid in the coordinate space of `viewBox`.
@@ -130,8 +124,10 @@ export interface CaseStudy {
   status: Status;
   /** hero field, e.g. "Solo · degree project with STAR Institute" */
   role: string;
-  /** demo / external links; [] renders a "private project" note instead */
+  /** demo / external links; [] renders `linksNote` (or a default) instead */
   links: CaseLink[];
+  /** shown in place of links when `links` is empty */
+  linksNote?: string;
   metaDescription: string;
   card: CaseCard;
 
@@ -149,18 +145,4 @@ export interface CaseStudy {
   reality?: { intro?: string; rows: RealityRow[] };
   media?: MediaItem[];
   cta: { blurb: string };
-}
-
-// ---------------------------------------------------------------------------
-// "Also built" — the compact secondary list. See #9.
-// ---------------------------------------------------------------------------
-
-export interface OtherWork {
-  name: string;
-  blurb: string;
-  stack: string[];
-  signatureStack?: string[];
-  status: Status;
-  /** revealed when the card is expanded (no case study page to link to) */
-  expandedDetail: string[];
 }

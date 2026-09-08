@@ -1,17 +1,14 @@
-import type { Accent, CaseStudy, Status } from "./types";
+import type { CaseStudy } from "./types";
 import iiot from "./industrial-iot-platform";
 
-export type { CaseStudy, OtherWork } from "./types";
-export { otherWork } from "./other-work";
+export type { CaseStudy } from "./types";
 
-// Ordered registry. Strongest / most-documented first; shipped before
-// prototype. See docs/adr/0003-landing-projects-section.md for the landing
-// section's use of this order.
+// Ordered registry. Adding a case study is a data file plus an entry here.
+// Order is strongest / most-documented first, shipped before prototype — the
+// landing section reads it in this order.
 export const caseStudies: CaseStudy[] = [
   iiot,
-  // yourspot,   — issue tracker: "Build: YourSpot case study"
-  // softskills,  — "Build: SoftSkills case study"
-  // urvox,       — "Build: Urvox case study"
+  // yourspot, softskills, urvox — one build ticket each on wayfinder map #1
 ];
 
 export const caseStudySlugs: string[] = caseStudies.map((c) => c.slug);
@@ -19,28 +16,3 @@ export const caseStudySlugs: string[] = caseStudies.map((c) => c.slug);
 export function getCaseStudy(slug: string): CaseStudy | undefined {
   return caseStudies.find((c) => c.slug === slug);
 }
-
-// The subset the landing section renders. Derived — never duplicated.
-export interface LandingCard {
-  slug: string;
-  name: string;
-  tagline: string;
-  accent: Accent;
-  status: Status;
-  role: string;
-  blurb: string;
-  stack: string[];
-  signatureStack: string[];
-}
-
-export const landingCards: LandingCard[] = caseStudies.map((c) => ({
-  slug: c.slug,
-  name: c.name,
-  tagline: c.tagline,
-  accent: c.accent,
-  status: c.status,
-  role: c.role,
-  blurb: c.card.blurb,
-  stack: c.card.stack,
-  signatureStack: c.card.signatureStack,
-}));

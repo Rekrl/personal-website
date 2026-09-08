@@ -15,6 +15,7 @@ const iiot: CaseStudy = {
   status: "shipped",
   role: "Solo · final-year Computer Engineering project with STAR Institute",
   links: [],
+  linksNote: "Private repository — built for STAR Institute.",
   metaDescription:
     "IIoT Trace: a sensor-agnostic industrial monitoring platform built for STAR Institute. Architecture, engineering decisions, and the tradeoffs behind a 3-tier IIoT system.",
   card: {
@@ -163,8 +164,8 @@ const iiot: CaseStudy = {
       tag: "analytics",
       title: "Deterministic analytics — no unsupervised ML",
       decision:
-        "Anomaly detection is Z-Score plus moving-average deviation; risk is a fixed weighted sum; remaining-useful-life is a closed-form degradation curve; forecasting is ordinary least squares with no external dependencies. Vibration thresholds come straight from ISO 10816-1.",
-      why: "For a monitoring system an operator has to trust and act on, every alert needs to be explainable after the fact. A deterministic pipeline can be audited line by line; an unsupervised model can't, and it wasn't warranted at this scale.",
+        "Anomaly detection runs six deterministic detectors — Z-Score, moving-average deviation, gradient, THD-trend, a stuck-sensor check (only while the asset is RUNNING), and a machine-state classifier (OFF / IDLE / RUNNING, which also feeds a lightweight OEE). Risk is a fixed weighted sum, remaining-useful-life a closed-form degradation curve, and forecasting is ordinary least squares with no external dependencies. Vibration thresholds come straight from ISO 10816-1.",
+      why: "For a monitoring system an operator has to trust and act on, every alert needs to be explainable after the fact. A deterministic pipeline can be audited line by line; an unsupervised model can't, and it wasn't warranted at this scale. Gating the stuck-sensor detector on machine state stops a legitimate stop from reading as a fault.",
     },
     {
       tag: "process",
@@ -216,7 +217,7 @@ const iiot: CaseStudy = {
       {
         claim: "CNC machining monitoring",
         reality:
-          "The vibration sensor is installed on STAR Institute's CNC and the pipeline ingests from it, but no real machining sessions were captured by the delivery date. The per-material vibration profiles are theoretical (ISO / literature), not measured.",
+          "The vibration sensor is installed on STAR Institute's CNC and the pipeline ingests from it, but no real machining sessions were captured by the delivery date. The per-material vibration profiles are derived from machining literature (Trent & Wright), not measured.",
       },
       {
         claim: "handles ~280 concurrent assets",
