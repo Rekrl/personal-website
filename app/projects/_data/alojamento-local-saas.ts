@@ -4,7 +4,7 @@ import type { CaseStudy } from "./types";
 // which synthesises the project's own wayfinding map (AutoMendes/saas_reservations
 // issue #1 and children) plus a read of the two local source repos.
 // The platform has no product name of its own; "YourSpot" is the pilot tenant.
-// Built with another developer — architecture decided jointly, then the build split.
+// Built with another developer: architecture decided jointly, then the build split.
 // No public repo, no deployed demo.
 
 const alojamentoLocalSaas: CaseStudy = {
@@ -217,6 +217,39 @@ const alojamentoLocalSaas: CaseStudy = {
       },
     ],
   },
+
+  media: [
+    {
+      kind: "image",
+      src: "/projects/alojamento-local-saas/moderno-home.webp",
+      caption:
+        "YourSpot on the Moderno template \u2014 sunlit editorial, rounded cards, Costa Nova stripe-red. The pilot client's site.",
+    },
+    {
+      kind: "image",
+      src: "/projects/alojamento-local-saas/luxo-home.webp",
+      caption:
+        "The same codebase, the fictional Vista Douro tenant, the Luxo template \u2014 a different component tree, palette, font pairing and locale set (PT/EN/IT, not ES). Switched by one query parameter locally, by the Host header in production.",
+    },
+    {
+      kind: "image",
+      src: "/projects/alojamento-local-saas/moderno-alojamentos.webp",
+      caption:
+        "The listings route on Moderno \u2014 the pilot's seven real Ria de Aveiro properties, entered through the backoffice.",
+    },
+    {
+      kind: "image",
+      src: "/projects/alojamento-local-saas/luxo-alojamentos.webp",
+      caption:
+        "The same /alojamentos route on Luxo \u2014 sharp hairline cards, tracked uppercase labels, Vista Douro's own three properties. No URL prefix; the template is resolved from the tenant.",
+    },
+    {
+      kind: "image",
+      src: "/projects/alojamento-local-saas/property-booking.webp",
+      caption:
+        "A property page with the booking form \u2014 check-in/out, the adults/children/pets picker, email and phone required. The booking fields and rules are shared by every template; only the presentation changes.",
+    },
+  ],
 
   cta: {
     blurb:

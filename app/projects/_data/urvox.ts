@@ -218,6 +218,39 @@ const urvox: CaseStudy = {
     ],
   },
 
+  media: [
+    {
+      kind: "image",
+      src: "/projects/urvox/transparency-ledger.webp",
+      caption:
+        "The public ledger explorer. Every block is re-verified on load; its hash and prev-hash are shown truncated, and the sidebar spells out exactly what does and doesn't go on the chain.",
+    },
+    {
+      kind: "image",
+      src: "/projects/urvox/landing.webp",
+      caption:
+        "The landing page \u2014 the pitch, and the \u201cprot\u00f3tipo de demonstra\u00e7\u00e3o \u00b7 dados simulados\u201d line that runs along the bottom of every screen.",
+    },
+    {
+      kind: "image",
+      src: "/projects/urvox/city-bins.webp",
+      caption:
+        "The city panel: an illustrated map of Vilanova's bins by fill level and zone, with per-bin sparklines. Simulated sensors, updated live.",
+    },
+    {
+      kind: "image",
+      src: "/projects/urvox/report-privacy.webp",
+      caption:
+        "The report form states which fields are public before you fill it in \u2014 category and zone go on the ledger; your name and description stay with you.",
+    },
+    {
+      kind: "image",
+      src: "/projects/urvox/dashboard.webp",
+      caption:
+        "The citizen's personal panel \u2014 their zone's bins, their own reports, and the live count of events in the public ledger.",
+    },
+  ],
+
   cta: {
     blurb:
       "My own project \u2014 built solo, still in development, outside any academic or client brief. The idea was seeded by a course exercise; everything since has been mine. Next up: a real blockchain for the citizen wallet and accounts.",
