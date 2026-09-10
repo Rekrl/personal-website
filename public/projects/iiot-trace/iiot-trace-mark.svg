@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" fill="none">
+  <title>IIoT Trace — Mark</title>
+  <g stroke="#FFFFFF" stroke-width="6" stroke-linecap="square">
+    <path d="M6 22 V6 H22"></path>
+    <path d="M78 6 H94 V22"></path>
+    <path d="M94 78 V94 H78"></path>
+    <path d="M22 94 H6 V78"></path>
+  </g>
+  <path d="M14 56 H34 L42 56 L46 44 L54 68 L58 56 H86" stroke="#00B8D9" stroke-width="6" stroke-linejoin="miter" stroke-linecap="square"></path>
+  <rect x="43" y="38" width="6" height="6" fill="#00B8D9"></rect>
+</svg>
