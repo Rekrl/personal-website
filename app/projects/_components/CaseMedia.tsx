@@ -1,24 +1,22 @@
 import type { MediaItem } from "../_data/types";
 import SectionLabel from "./SectionLabel";
+import LazyVideo from "./LazyVideo";
 
 function Item({ item }: { item: MediaItem }) {
   if (item.kind === "image") {
     // Static portfolio assets from /public — next/image adds no value here.
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={item.src} alt={item.caption} className="w-full block" />;
-  }
-  if (item.kind === "video") {
     return (
-      <video
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
         src={item.src}
-        poster={item.poster}
-        muted
-        loop
-        autoPlay
-        playsInline
+        alt={item.caption}
+        loading="lazy"
         className="w-full block"
       />
     );
+  }
+  if (item.kind === "video") {
+    return <LazyVideo src={item.src} caption={item.caption} />;
   }
   return (
     <div className="relative w-full" style={{ aspectRatio: "16 / 9" }}>

@@ -106,6 +106,24 @@ export interface CaseCard {
   stack: string[];
   /** stack entries rendered in the project accent; the rest stay muted */
   signatureStack: string[];
+  /** shown in the featured card's media panel — path under /public. Only the
+      first case study in the registry is featured, so only it needs this. */
+  featuredImage?: string;
+}
+
+/**
+ * Secondary work shown under the case studies — no dedicated page, no repo.
+ * A card that expands on click to reveal `expandedDetail`.
+ * See docs/adr/0003-landing-projects-section.md.
+ */
+export interface OtherWork {
+  name: string;
+  /** one-line teaser, always visible */
+  blurb: string;
+  stack: string[];
+  status: Status;
+  /** 2–3 sentences revealed on click: what it was, the role, the outcome */
+  expandedDetail: string[];
 }
 
 export interface Figure {

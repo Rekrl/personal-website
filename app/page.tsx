@@ -1,36 +1,7 @@
-import Link from "next/link";
 import ParticleNetwork from "./components/ParticleNetwork";
 import ThemeToggle from "./components/ThemeToggle";
-
-const projects = [
-  {
-    name: "Industrial IoT Platform",
-    slug: "industrial-iot-platform",
-    description:
-      "End-to-end industrial monitoring: ESP32 edge firmware → MQTT broker → Node.js pipeline → InfluxDB → real-time dashboard + FastAPI anomaly detection. Containerised with Docker.",
-    stack: ["ESP32", "MQTT", "Node.js", "InfluxDB", "FastAPI", "Docker"],
-    cardHover: "hover:border-cyan",
-    titleHover: "group-hover:text-cyan",
-  },
-  {
-    name: "E-learning Platform",
-    slug: "",
-    description:
-      "Full learning management system with course creation, real-time chat, progress tracking and media uploads. Graded 19/20.",
-    stack: ["React", "Node.js", "PostgreSQL", "Socket.io"],
-    cardHover: "hover:border-magenta",
-    titleHover: "group-hover:text-magenta",
-  },
-  {
-    name: "Company Website",
-    slug: "",
-    description:
-      "Full company website built from scratch: product catalog, contact form, and WhatsApp API integration for automated client communication.",
-    stack: ["HTML/CSS/JS", "PHP", "MySQL", "WhatsApp API"],
-    cardHover: "hover:border-purple",
-    titleHover: "group-hover:text-purple",
-  },
-];
+import ProjectCards from "./projects/_components/ProjectCards";
+import OtherWorkGrid from "./projects/_components/OtherWorkGrid";
 
 const stack = [
   "JavaScript",
@@ -155,52 +126,13 @@ export default function Home() {
         <p className="text-muted-5 text-xs tracking-[0.3em] mb-8 uppercase">
           02 / projects
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-grid">
-          {projects.map((p) => {
-            const content = (
-              <>
-                <h3
-                  className={`font-bold text-base mb-3 ${p.titleHover} transition-colors`}
-                >
-                  {p.name}
-                </h3>
-                <p className="text-muted-3 text-sm leading-relaxed mb-5">
-                  {p.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {p.stack.map((s) => (
-                    <span
-                      key={s}
-                      className="text-xs border border-border px-2 py-1 text-muted-5"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-                {p.slug && (
-                  <span
-                    className={`text-xs tracking-widest uppercase text-muted-5 ${p.titleHover} transition-colors`}
-                  >
-                    Read case study →
-                  </span>
-                )}
-              </>
-            );
-
-            const className = `block bg-surface p-6 border border-border ${p.cardHover} transition-colors group ${
-              p.slug ? "cursor-pointer" : "cursor-default"
-            }`;
-
-            return p.slug ? (
-              <Link key={p.name} href={`/projects/${p.slug}`} className={className}>
-                {content}
-              </Link>
-            ) : (
-              <div key={p.name} className={className}>
-                {content}
-              </div>
-            );
-          })}
+        <ProjectCards />
+        <div className="mt-16">
+          <p className="text-muted-4 text-sm mb-6 max-w-2xl leading-relaxed">
+            Also built, in less depth — coursework, team projects, and earlier
+            client work. Click to expand.
+          </p>
+          <OtherWorkGrid />
         </div>
       </section>
 

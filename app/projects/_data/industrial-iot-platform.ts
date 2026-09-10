@@ -23,6 +23,7 @@ const iiot: CaseStudy = {
       "Sensor-agnostic industrial monitoring: ESP32 edge firmware publishes over MQTT to a Node.js pipeline — the sole writer to InfluxDB — with a FastAPI service scoring anomalies and risk in real time.",
     stack: ["ESP32-S3", "MQTT", "Node.js", "InfluxDB", "FastAPI", "Docker"],
     signatureStack: ["ESP32-S3", "MQTT", "InfluxDB"],
+    featuredImage: "/projects/iiot-trace/dashboard-overview.webp",
   },
 
   overview: [
@@ -231,6 +232,39 @@ const iiot: CaseStudy = {
       },
     ],
   },
+
+  media: [
+    {
+      kind: "youtube",
+      src: "tLJtiZcuAG4",
+      caption:
+        "Full 2:30 walkthrough — edge to dashboard across all six domains (no narration).",
+    },
+    {
+      kind: "image",
+      src: "/projects/iiot-trace/dashboard-overview.webp",
+      caption:
+        "Monitoring home — location cards, active-sensor counts, system state.",
+    },
+    {
+      kind: "video",
+      src: "/projects/iiot-trace/vibration-alert.mp4",
+      caption:
+        "A vibration RMS spike crossing the ISO 10816-1 Class-I limit, raising a critical alert.",
+    },
+    {
+      kind: "image",
+      src: "/projects/iiot-trace/pipeline-logs.webp",
+      caption:
+        "The /logs page — every dropped message is typed, counted and traceable (no silent drops).",
+    },
+    {
+      kind: "video",
+      src: "/projects/iiot-trace/energy-domain.mp4",
+      caption:
+        "Three-phase energy telemetry from the Eastron SDM630MCT over Modbus RTU.",
+    },
+  ],
 
   cta: {
     blurb:
