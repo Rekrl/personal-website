@@ -1,5 +1,6 @@
 import type { CaseStudy } from "./types";
 import iiot from "./industrial-iot-platform";
+import alojamentoLocalSaas from "./alojamento-local-saas";
 
 export type { CaseStudy } from "./types";
 
@@ -8,7 +9,8 @@ export type { CaseStudy } from "./types";
 // landing section reads it in this order.
 export const caseStudies: CaseStudy[] = [
   iiot,
-  // yourspot, softskills, urvox — one build ticket each on wayfinder map #1
+  alojamentoLocalSaas,
+  // softskills, urvox — one build ticket each on wayfinder map #1
 ];
 
 export const caseStudySlugs: string[] = caseStudies.map((c) => c.slug);
