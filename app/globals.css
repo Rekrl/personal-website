@@ -46,6 +46,24 @@
   --accent-purple: #9b27af;
   --accent-orange: #ff6d00;
   --on-accent: #000000;
+
+  /* status semantics — separate from the accent hues */
+  --ok: #3fb950;
+  --wip: #d29922;
+  --proto: #8b949e;
+
+  /* case-study diagram tokens (docs/adr/0002-diagram-system.md).
+     Accents follow --accent-* so light mode is handled by the site palette. */
+  --d-bg: #000000;
+  --d-node: #0c0c0f;
+  --d-fg: #f1f1f3;
+  --d-muted: #9a9aa4;
+  --d-line: rgba(255, 255, 255, 0.16);
+  --d-line-strong: rgba(255, 255, 255, 0.34);
+  --d-cyan: var(--accent-cyan);
+  --d-magenta: var(--accent-magenta);
+  --d-purple: var(--accent-purple);
+  --d-orange: var(--accent-orange);
 }
 
 [data-theme="light"] {
@@ -67,6 +85,17 @@
   --accent-purple: #7e22ce;
   --accent-orange: #c2410c;
   --on-accent: #ffffff;
+
+  --ok: #1a7f37;
+  --wip: #9a6700;
+  --proto: #6e7781;
+
+  --d-bg: #ffffff;
+  --d-node: #fafafa;
+  --d-fg: #16161a;
+  --d-muted: #5c5c66;
+  --d-line: rgba(0, 0, 0, 0.18);
+  --d-line-strong: rgba(0, 0, 0, 0.32);
 }
 
 * {
