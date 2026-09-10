@@ -1,0 +1,335 @@
+<meta charset="utf-8" />
+<title>Projects Section — Three Layouts</title>
+<meta name="description" content="Prototype for wayfinder ticket #8: three layouts for the portfolio's projects section — four case-study cards plus a compact 'also built' list." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600&display=swap" />
+
+<style>
+  :root {
+    --bg: #f7f7f5; --surface: #ffffff; --fg: #16161a; --muted-1: #3a3a42;
+    --muted-3: #5c5c66; --muted-5: #8a8a94; --line: rgba(0,0,0,.12);
+    --line-strong: rgba(0,0,0,.24); --grid: rgba(0,0,0,.06);
+    --cyan: #0e7490; --magenta: #be185d; --purple: #7e22ce; --orange: #c2410c;
+    --ok: #1a7f37; --wip: #9a6700; --proto: #6e7781;
+    --on-accent: #ffffff;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #000000; --surface: #050506; --fg: #ffffff; --muted-1: #e5e5e5;
+      --muted-3: #a3a3a3; --muted-5: #6a6a6a; --line: rgba(255,255,255,.11);
+      --line-strong: rgba(255,255,255,.22); --grid: rgba(255,255,255,.05);
+      --cyan: #22d3ee; --magenta: #f472b6; --purple: #c084fc; --orange: #fb923c;
+      --ok: #3fb950; --wip: #d29922; --proto: #8b949e; --on-accent: #000000;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #000000; --surface: #050506; --fg: #ffffff; --muted-1: #e5e5e5;
+    --muted-3: #a3a3a3; --muted-5: #6a6a6a; --line: rgba(255,255,255,.11);
+    --line-strong: rgba(255,255,255,.22); --grid: rgba(255,255,255,.05);
+    --cyan: #22d3ee; --magenta: #f472b6; --purple: #c084fc; --orange: #fb923c;
+    --ok: #3fb950; --wip: #d29922; --proto: #8b949e; --on-accent: #000000;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: var(--mono); font-size: 14px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; padding-bottom: 72px;
+  }
+
+  .intro { max-width: 860px; margin: 0 auto; padding: 40px 24px 8px; }
+  .intro .eyebrow { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted-5); margin: 0 0 12px; }
+  .intro h1 { font-family: var(--sans); font-weight: 600; font-size: clamp(24px, 4vw, 34px); margin: 0 0 14px; letter-spacing: -.01em; text-wrap: balance; }
+  .intro p { color: var(--muted-3); max-width: 66ch; margin: 0 0 8px; }
+  .intro b { color: var(--fg); font-weight: 500; }
+
+  /* faux page chrome so the section reads in situ */
+  .frame { border-top: 1px solid var(--line-strong); margin-top: 28px; }
+  .nav {
+    position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(6px); font-size: 12px; color: var(--muted-5);
+  }
+  .nav .brand { color: var(--cyan); font-weight: 600; letter-spacing: .2em; }
+  .stage { max-width: 1100px; margin: 0 auto; padding: 56px 24px 72px; }
+  .stage > .sec-label { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted-5); margin: 0 0 32px; }
+
+  /* ---------- shared bits ---------- */
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-3); white-space: nowrap; }
+  .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--dot, var(--proto)); }
+  .badge.ok { --dot: var(--ok); }
+  .badge.wip { --dot: var(--wip); }
+  .badge.proto { --dot: var(--proto); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 11px; border: 1px solid var(--line); padding: 2px 7px; color: var(--muted-5); }
+
+  .read { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted-5); transition: color .15s; }
+
+  h3.pname { font-family: var(--sans); font-weight: 600; font-size: 16px; margin: 0; letter-spacing: -.01em; transition: color .15s; }
+  .blurb { color: var(--muted-3); font-size: 13px; line-height: 1.62; margin: 0; }
+  .role { font-size: 11px; color: var(--muted-5); margin: 0; }
+
+  /* ================= VARIANT A — 2x2 grid ================= */
+  .vA .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--grid); border: 1px solid var(--line); }
+  .vA .card {
+    background: var(--surface); padding: 24px; display: flex; flex-direction: column; gap: 14px;
+    border: 1px solid transparent; transition: border-color .15s; cursor: pointer; min-height: 216px;
+  }
+  .vA .card:hover { border-color: var(--accent); }
+  .vA .card:hover h3.pname, .vA .card:hover .read { color: var(--accent); }
+  .vA .card .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .vA .card .blurb { flex: 1; }
+  .vA .other { margin-top: 44px; }
+  .vA .olist { border-top: 1px solid var(--line-strong); }
+  .vA .oitem {
+    display: grid; grid-template-columns: 1fr auto; gap: 16px 24px; align-items: start;
+    padding: 18px 6px; border-bottom: 1px solid var(--line);
+  }
+  .vA .oitem .mid { display: flex; flex-direction: column; gap: 8px; max-width: 62ch; }
+  .vA .oitem h3.pname { font-size: 14px; }
+
+  /* ================= VARIANT B — featured + row ================= */
+  .vB .feature {
+    background: var(--surface); border: 1px solid var(--line); padding: 28px;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; transition: border-color .15s; cursor: pointer;
+  }
+  .vB .feature:hover { border-color: var(--accent); }
+  .vB .feature:hover h3.pname, .vB .feature:hover .read { color: var(--accent); }
+  .vB .feature .media {
+    border: 1px solid var(--line); background:
+      repeating-linear-gradient(135deg, var(--grid) 0 10px, transparent 10px 20px);
+    display: flex; align-items: center; justify-content: center; color: var(--muted-5); font-size: 11px;
+    letter-spacing: .12em; text-transform: uppercase; min-height: 150px;
+  }
+  .vB .feature .body { display: flex; flex-direction: column; gap: 14px; }
+  .vB .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--grid); border: 1px solid var(--line); border-top: 0; margin-top: 1px; }
+  .vB .row .card { background: var(--surface); padding: 20px; display: flex; flex-direction: column; gap: 12px; border: 1px solid transparent; transition: border-color .15s; cursor: pointer; }
+  .vB .row .card:hover { border-color: var(--accent); }
+  .vB .row .card:hover h3.pname, .vB .row .card:hover .read { color: var(--accent); }
+  .vB .other { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .vB .owc { border: 1px solid var(--line); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+
+  /* ================= VARIANT C — index / listing ================= */
+  .vC .list { border-top: 1px solid var(--line-strong); }
+  .vC .item {
+    display: grid; grid-template-columns: 42px 1fr auto; gap: 20px; align-items: start;
+    padding: 24px 8px; border-bottom: 1px solid var(--line);
+    transition: background .15s, padding-left .15s; cursor: pointer;
+  }
+  .vC .item:hover { padding-left: 16px; background: color-mix(in srgb, var(--accent) 5%, transparent); }
+  .vC .item:hover h3.pname, .vC .item:hover .read, .vC .item:hover .idx { color: var(--accent); }
+  .vC .idx { font-size: 12px; color: var(--muted-5); padding-top: 3px; transition: color .15s; }
+  .vC .mid { display: flex; flex-direction: column; gap: 9px; max-width: 60ch; }
+  .vC .titleline { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .vC .right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; text-align: right; padding-top: 3px; }
+  .vC .other { margin-top: 44px; }
+  .vC .other .item { grid-template-columns: 1fr auto; }
+  .vC .other h3.pname { font-size: 14px; }
+  .vC .other .idx { display: none; }
+
+  .other-head { display: flex; align-items: baseline; gap: 14px; margin: 0 0 6px; }
+  .other-head span { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted-5); }
+  .other-head p { font-size: 12px; color: var(--muted-5); margin: 0; }
+
+  @media (max-width: 760px) {
+    .vA .grid, .vB .row, .vB .other { grid-template-columns: 1fr; }
+    .vB .feature { grid-template-columns: 1fr; }
+    .vC .item { grid-template-columns: 1fr; gap: 10px; }
+    .vC .right { align-items: flex-start; text-align: left; }
+    .vC .idx { display: none; }
+  }
+
+  /* switcher */
+  .switch {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 10px; background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px); border-top: 1px solid var(--line-strong); font-size: 12px;
+  }
+  .switch button {
+    font: inherit; font-family: var(--mono); color: var(--muted-3); background: var(--surface);
+    border: 1px solid var(--line-strong); padding: 6px 14px; cursor: pointer; letter-spacing: .04em;
+  }
+  .switch button[aria-pressed="true"] { color: var(--on-accent); background: var(--cyan); border-color: var(--cyan); }
+  .switch .sp { width: 1px; height: 22px; background: var(--line-strong); margin: 0 4px; }
+  [data-variant] { display: none; }
+  [data-variant].on { display: block; }
+</style>
+
+<div class="intro">
+  <p class="eyebrow">Wayfinder · map #1 · ticket #8</p>
+  <h1>Projects section — three layouts</h1>
+  <p>
+    The <b>02 / projects</b> block, rebuilt for four deep case studies plus a compact
+    <b>also built</b> list. Same card idiom as the current site — bordered, mono, one accent
+    colour per project on hover — three different ways to arrange it. Real content and copy
+    throughout. Switch layouts and theme at the bottom.
+  </p>
+  <p style="font-size:12px;color:var(--muted-5)">
+    A · 2×2 grid (closest to today) &nbsp;·&nbsp; B · featured IIoT + a row of three &nbsp;·&nbsp; C · typographic index
+  </p>
+</div>
+
+<div class="frame">
+  <div class="nav"><span class="brand">ns.</span><span>about &nbsp; projects &nbsp; stack &nbsp; contact</span></div>
+
+  <div class="stage">
+    <p class="sec-label">02 / projects</p>
+    <div data-variant="A" class="vA on"></div>
+    <div data-variant="B" class="vB"></div>
+    <div data-variant="C" class="vC"></div>
+  </div>
+</div>
+
+<div class="switch">
+  <span style="color:var(--muted-5)">layout</span>
+  <button data-v="A" aria-pressed="true">A · grid</button>
+  <button data-v="B" aria-pressed="false">B · featured</button>
+  <button data-v="C" aria-pressed="false">C · index</button>
+  <span class="sp"></span>
+  <button id="theme">light / dark</button>
+</div>
+
+<script>
+  var PROJECTS = [
+    {
+      name: "IIoT Trace", accent: "cyan", status: "ok", statusLabel: "shipped",
+      role: "Solo · degree project with STAR Institute",
+      blurb: "Sensor-agnostic industrial monitoring: ESP32 edge firmware publishes over MQTT to a Node.js pipeline — the sole writer to InfluxDB — with a FastAPI service scoring anomalies and risk in real time.",
+      stack: ["ESP32-S3", "MQTT", "Node.js", "InfluxDB", "FastAPI", "Docker"]
+    },
+    {
+      name: "YourSpot", accent: "magenta", status: "wip", statusLabel: "in progress",
+      role: "Solo · client SaaS",
+      blurb: "Multi-tenant booking platform where every client gets an independently themed site — three full template implementations over one shared booking engine, tenant resolved per request from the host.",
+      stack: ["Next.js", "NestJS", "Prisma", "PostgreSQL", "Tailwind"]
+    },
+    {
+      name: "SoftSkills", accent: "purple", status: "ok", statusLabel: "shipped",
+      role: "Team of 5 · my part: trainee area + forum rebuild",
+      blurb: "Learning-management platform with a web app and an offline-first Flutter companion — courses, quizzes, weighted progress tracking, and an async community forum. Graded 19/20.",
+      stack: ["React", "Node.js", "MySQL", "Flutter", "Firebase", "AWS S3"]
+    },
+    {
+      name: "Urvox", accent: "orange", status: "proto", statusLabel: "prototype",
+      role: "Team of 4 · academic",
+      blurb: "Civic platform linking city, citizen and council around a public tamper-evident event ledger. A navigable SmartCity prototype — real hash chain, simulated sensors, every simplification flagged in the UI.",
+      stack: ["Next.js", "TypeScript", "SHA-256 ledger"]
+    }
+  ];
+
+  var OTHER = [
+    {
+      name: "Cartógrafo", status: "ok", statusLabel: "shipped",
+      blurb: "University AI project — route-finding across 18 Portuguese cities with four graph-search algorithms, licence-plate login via OCR, and a local LLM narrating each city's sights.",
+      stack: ["Python", "Streamlit", "EasyOCR", "Mistral 7B"]
+    },
+    {
+      name: "Company website — Tek4You", status: "ok", statusLabel: "shipped",
+      blurb: "Company site built from scratch during a curricular internship — product catalogue, contact form, and a WhatsApp API integration for automated client messaging.",
+      stack: ["PHP", "MySQL", "JavaScript", "WhatsApp API"]
+    },
+    {
+      name: "theMonkeyBusinessNews", status: "ok", statusLabel: "shipped",
+      blurb: "A multi-section satirical news portal hand-built for a web-development course — dozens of article pages, no framework.",
+      stack: ["HTML", "CSS", "JavaScript"]
+    }
+  ];
+
+  function chips(arr) {
+    return '<div class="chips">' + arr.map(function (s) { return '<span class="chip">' + s + '</span>'; }).join("") + "</div>";
+  }
+  function badge(p) { return '<span class="badge ' + p.status + '">' + p.statusLabel + "</span>"; }
+
+  var otherHead =
+    '<div class="other-head"><span>also built</span><p>Coursework, team projects, and earlier client work.</p></div>';
+
+  // ---- Variant A: 2x2 grid ----
+  (function () {
+    var cards = PROJECTS.map(function (p) {
+      return '<article class="card" style="--accent:var(--' + p.accent + ')">' +
+        '<div class="top"><h3 class="pname">' + p.name + "</h3>" + badge(p) + "</div>" +
+        '<p class="blurb">' + p.blurb + "</p>" +
+        '<p class="role">' + p.role + "</p>" +
+        chips(p.stack) +
+        '<span class="read">read case study &rarr;</span>' +
+        "</article>";
+    }).join("");
+    var other = OTHER.map(function (o) {
+      return '<div class="oitem"><div class="mid"><h3 class="pname">' + o.name + "</h3>" +
+        '<p class="blurb">' + o.blurb + "</p>" + chips(o.stack) + "</div>" +
+        badge(o) + "</div>";
+    }).join("");
+    document.querySelector('[data-variant="A"]').innerHTML =
+      '<div class="grid">' + cards + "</div>" +
+      '<div class="other">' + otherHead + '<div class="olist">' + other + "</div></div>";
+  })();
+
+  // ---- Variant B: featured + row of three ----
+  (function () {
+    var f = PROJECTS[0];
+    var feature = '<article class="feature" style="--accent:var(--' + f.accent + ')">' +
+      '<div class="media">architecture diagram + demo clip</div>' +
+      '<div class="body"><div class="top" style="display:flex;justify-content:space-between;gap:12px">' +
+      '<h3 class="pname" style="font-size:19px">' + f.name + "</h3>" + badge(f) + "</div>" +
+      '<p class="blurb" style="font-size:13.5px">' + f.blurb + "</p>" +
+      '<p class="role">' + f.role + "</p>" + chips(f.stack) +
+      '<span class="read">read case study &rarr;</span></div></article>';
+    var row = PROJECTS.slice(1).map(function (p) {
+      return '<article class="card" style="--accent:var(--' + p.accent + ')">' +
+        '<div class="top" style="display:flex;justify-content:space-between;gap:10px">' +
+        '<h3 class="pname">' + p.name + "</h3>" + badge(p) + "</div>" +
+        '<p class="blurb">' + p.blurb + "</p><p class=\"role\">" + p.role + "</p>" + chips(p.stack) +
+        '<span class="read">read case study &rarr;</span></article>';
+    }).join("");
+    var other = OTHER.map(function (o) {
+      return '<div class="owc"><h3 class="pname" style="font-size:14px">' + o.name + "</h3>" +
+        badge(o) + '<p class="blurb">' + o.blurb + "</p>" + chips(o.stack) + "</div>";
+    }).join("");
+    document.querySelector('[data-variant="B"]').innerHTML =
+      feature + '<div class="row">' + row + "</div>" +
+      '<div class="other-wrap" style="margin-top:40px">' + otherHead + '<div class="other">' + other + "</div></div>";
+  })();
+
+  // ---- Variant C: typographic index ----
+  (function () {
+    var items = PROJECTS.map(function (p, i) {
+      return '<div class="item" style="--accent:var(--' + p.accent + ')">' +
+        '<span class="idx">0' + (i + 1) + "</span>" +
+        '<div class="mid"><div class="titleline"><h3 class="pname">' + p.name + "</h3>" + badge(p) + "</div>" +
+        '<p class="blurb">' + p.blurb + '</p><p class="role">' + p.role + "</p></div>" +
+        '<div class="right">' + chips(p.stack) + '<span class="read">read case study &rarr;</span></div>' +
+        "</div>";
+    }).join("");
+    var other = OTHER.map(function (o) {
+      return '<div class="item"><div class="mid"><div class="titleline"><h3 class="pname">' + o.name +
+        "</h3>" + badge(o) + '</div><p class="blurb">' + o.blurb + "</p>" + chips(o.stack) + "</div>" +
+        '<div class="right"></div></div>';
+    }).join("");
+    document.querySelector('[data-variant="C"]').innerHTML =
+      '<div class="list">' + items + "</div>" +
+      '<div class="other">' + otherHead + '<div class="list">' + other + "</div></div>";
+  })();
+
+  // switcher
+  var btns = document.querySelectorAll(".switch [data-v]");
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      btns.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      document.querySelectorAll("[data-variant]").forEach(function (s) {
+        s.classList.toggle("on", s.getAttribute("data-variant") === b.getAttribute("data-v"));
+      });
+      window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+    });
+  });
+  document.getElementById("theme").addEventListener("click", function () {
+    var c = document.documentElement.getAttribute("data-theme");
+    var n = c === "dark" ? "light" : c === "light" ? "dark"
+      : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", n);
+  });
+</script>
