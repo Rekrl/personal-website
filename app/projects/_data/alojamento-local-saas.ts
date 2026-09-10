@@ -2,16 +2,16 @@ import type { CaseStudy } from "./types";
 
 // Written from docs/research/yourspot-dossier.md (branch research/yourspot-dossier),
 // which synthesises the project's own wayfinding map (AutoMendes/saas_reservations
-// issue #1 and children) plus the local source at C:\Users\nunog\Desktop\Alojamentos.
+// issue #1 and children) plus a read of the two local source repos.
 // The platform has no product name of its own; "YourSpot" is the pilot tenant.
-// Built with another developer — every architecture decision was made jointly on a
-// shared map before the build was split into tasks. No public repo, no deployed demo.
+// Built with another developer — architecture decided jointly, then the build split.
+// No public repo, no deployed demo.
 
 const alojamentoLocalSaas: CaseStudy = {
   slug: "alojamento-local-saas",
   name: "Alojamento Local SaaS",
   tagline:
-    "A multi-tenant booking platform that gives independent local-accommodation hosts a site of their own, off the big OTAs \u2014 one Next.js codebase serving three genuinely separate template designs, with each tenant's colour palette as a second, independent axis.",
+    "A multi-tenant booking platform that gives independent local-accommodation hosts a site of their own, off the big OTAs \u2014 one Next.js codebase where each client's template is its own component tree and the colour palette is a second, independent axis.",
   accent: "magenta",
   status: "in-progress",
   role: "Client SaaS \u00b7 built with another developer \u2014 architecture decided jointly",
@@ -22,20 +22,20 @@ const alojamentoLocalSaas: CaseStudy = {
     "A multi-tenant SaaS booking platform for local accommodation (\u201calojamento local\u201d). One Next.js codebase, three separate template designs, per-tenant theming, and the architecture behind serving many tenant sites from a single build.",
   card: {
     blurb:
-      "Multi-tenant booking platform giving independent accommodation hosts a site of their own \u2014 three full template implementations over one shared booking engine, with the tenant resolved per request from the host.",
+      "Multi-tenant booking platform for independent accommodation hosts \u2014 three full template implementations over one shared booking engine, with the tenant resolved per request from the host.",
     stack: ["Next.js", "NestJS", "Prisma", "PostgreSQL", "Tailwind v4"],
     signatureStack: ["Next.js", "NestJS", "Tailwind v4"],
   },
 
   overview: [
     "The platform is a multi-tenant SaaS for booking local accommodation \u2014 \u201calojamento local\u201d, the Portuguese regulatory category for independent short-stay rentals. Its pitch is a booking site of your own: somewhere for a small host to take reservations directly, off Booking.com and the channel-manager commission. It has no product name of its own yet; the pilot client, YourSpot, is what you see when it runs.",
-    "Every tenant gets their own public site, configured along two independent axes: which of three templates it runs \u2014 Moderno, Cl\u00e1ssico or Luxo \u2014 and which colour palette it wears, in light and dark. The booking rules underneath are common to every tenant; only the presentation varies. YourSpot, the pilot, is a real sole trader with seven properties around the Ria de Aveiro who came to this after a failed WordPress attempt.",
-    "It was built with another developer as real client work: we ran a shared wayfinding map, decided the architecture together, then split the tasks. Honest status \u2014 the three template trees, the per-request middleware, a real NestJS backend with the pilot's actual property data, the backoffice, i18n and SEO are all built; the reservation engine, payment capture and notifications are still in specification, and there is no deployed demo. It's planning-stage client work, not a launched product.",
+    "Every tenant gets their own public site, configured along two independent axes: which template it runs and which colour palette it wears, in light and dark. The booking rules underneath are common to every tenant; only the presentation varies. Three templates exist today \u2014 Moderno, Cl\u00e1ssico, Luxo \u2014 a demonstrator set to put in front of a prospective client and talk through directions; a client who wants something else gets a new template, not a fork of the codebase. YourSpot, the pilot, is a real sole trader with seven rentals \u2014 six around the Ria de Aveiro, one down the coast at Figueira da Foz \u2014 who came to this after a failed WordPress attempt.",
+    "Two of us built it, working off a single decision log we both wrote into before splitting the tasks. Honest status: the three template trees, the per-request middleware, a real NestJS backend with the pilot's actual property data, the backoffice, i18n and SEO are all built; the reservation engine, payment capture and notifications are still in specification, and there is no deployed demo. It's planning-stage client work, not a launched product.",
   ],
 
   architecture: {
     intro: [
-      "One Next.js codebase serves every tenant. A per-request middleware (src/proxy.ts) resolves which tenant a request belongs to from its Host header, injects that as an internal header, and every server component downstream reads it \u2014 no component touches an env var or re-parses the domain. Two things then vary per tenant, independently: which of three template component trees renders, and which colour palette the CSS variables carry.",
+      "One Next.js codebase serves every tenant. A per-request middleware (src/proxy.ts) resolves which tenant a request belongs to from its Host header, injects that as an internal header, and every server component downstream reads it \u2014 no component touches an env var or re-parses the domain. Two things then vary per tenant, independently: which template component tree renders (three exist today), and which colour palette the CSS variables carry.",
     ],
     figures: [
       {
@@ -50,16 +50,16 @@ const alojamentoLocalSaas: CaseStudy = {
           accentColor: "magenta",
           nodes: [
             { id: "req", x: 40, y: 24, w: 260, h: 44, label: ["HTTP request", "Host: yourspot.pt"] },
-            { id: "proxy", x: 40, y: 108, w: 260, h: 44, label: ["src/proxy.ts", "per-request middleware"] },
-            { id: "api", x: 372, y: 108, w: 244, h: 44, label: ["NestJS API", "GET /tenants/by-domain/:host"] },
-            { id: "hdr", x: 40, y: 192, w: 260, h: 44, label: ["injected headers", "x-tenant-slug \u00b7 x-locale"] },
-            { id: "sc", x: 40, y: 276, w: 260, h: 44, label: ["Server Components", "getTenantConfig() \u00b7 cached 1h"] },
-            { id: "tmpl", x: 20, y: 356, w: 288, h: 48, label: ["getActiveTemplate()", "templates[tenant.template]"] },
-            { id: "pal", x: 344, y: 356, w: 288, h: 48, label: ["root Layout \u2192 <style>", "--tenant-* from theme{light,dark}"] },
+            { id: "proxy", x: 40, y: 108, w: 256, h: 44, label: ["src/proxy.ts", "per-request middleware"] },
+            { id: "api", x: 388, y: 108, w: 232, h: 44, label: ["NestJS API", "GET /tenants/by-domain/:host"] },
+            { id: "hdr", x: 40, y: 192, w: 256, h: 44, label: ["injected headers", "x-tenant-slug \u00b7 x-locale"] },
+            { id: "sc", x: 40, y: 276, w: 256, h: 44, label: ["Server Components", "getTenantConfig() \u00b7 cached 1h"] },
+            { id: "tmpl", x: 16, y: 356, w: 288, h: 48, label: ["getActiveTemplate()", "templates[tenant.template]"] },
+            { id: "pal", x: 340, y: 356, w: 288, h: 48, label: ["root Layout \u2192 <style>", "--tenant-* from theme{light,dark}"] },
           ],
           edges: [
             { from: "req", to: "proxy", label: "Host header" },
-            { from: "proxy", to: "api", label: "GET by-domain" },
+            { from: "proxy", to: "api", label: "by-domain" },
             { from: "proxy", to: "hdr", label: "x-tenant-slug", accent: true },
             { from: "hdr", to: "sc", label: "next/headers" },
             { from: "sc", to: "tmpl", label: "template" },
@@ -69,20 +69,20 @@ const alojamentoLocalSaas: CaseStudy = {
       },
       {
         caption:
-          "Every route file under src/app/[locale] is a one-line dispatcher: it asks the registry for the active template and renders that template's page. Switching is on the tenant's template field, with no URL prefix. The three trees share data-type shapes and the booking rules \u2014 no markup.",
+          "Every route file under src/app/[locale] is a one-line dispatcher: it asks the registry for the active template and renders that template's page. Switching is on the tenant's template field, with no URL prefix. Each tree is 25 components; all they share is the data-type shapes and the booking rules \u2014 no markup.",
         ascii:
           "src/app/[locale]/page.tsx   (thin: return <getActiveTemplate().HomePage/>)\n        |  no URL prefix -- switch on tenant.template\n        v\nsrc/lib/templates.ts  templates[key] --+--> components/moderno/   (25 components)\n                                        +--> components/classico/  (25 components)\n                                        '--> components/luxo/      (25 components)",
         diagram: {
           viewBox: [0, 0, 640, 300],
           aria:
-            "Template registry: thin route dispatchers under src/app/[locale] call getActiveTemplate, which indexes the templates record in src/lib/templates.ts by the tenant's template key and returns one of three separate component trees \u2014 moderno, classico or luxo \u2014 each with 25 components.",
+            "Template registry: thin route dispatchers under src/app/[locale] call getActiveTemplate, which indexes the templates record in src/lib/templates.ts by the tenant's template key and returns one of three separate 25-component trees \u2014 moderno, classico or luxo.",
           accentColor: "magenta",
           nodes: [
-            { id: "route", x: 32, y: 40, w: 288, h: 46, label: ["src/app/[locale]/*", "thin page dispatchers"] },
-            { id: "reg", x: 32, y: 150, w: 288, h: 48, label: ["src/lib/templates.ts", "templates: Record<TemplateKey,\u2026>"] },
-            { id: "mod", x: 396, y: 104, w: 224, h: 40, label: ["components/moderno/", "25 components"] },
-            { id: "cls", x: 396, y: 164, w: 224, h: 40, label: ["components/classico/", "25 components"] },
-            { id: "lux", x: 396, y: 224, w: 224, h: 40, label: ["components/luxo/", "25 components"] },
+            { id: "route", x: 32, y: 40, w: 288, h: 44, label: ["src/app/[locale]/*", "thin page dispatchers"] },
+            { id: "reg", x: 32, y: 148, w: 288, h: 48, label: ["src/lib/templates.ts", "templates: Record<TemplateKey,\u2026>"] },
+            { id: "mod", x: 396, y: 104, w: 224, h: 40, label: ["components/moderno/", "sunlit editorial"] },
+            { id: "cls", x: 396, y: 164, w: 224, h: 40, label: ["components/classico/", "azulejo \u00b7 pousada"] },
+            { id: "lux", x: 396, y: 224, w: 224, h: 40, label: ["components/luxo/", "flor de sal \u00b7 brass"] },
           ],
           edges: [
             { from: "route", to: "reg", label: "no URL prefix", accent: true },
@@ -102,17 +102,17 @@ const alojamentoLocalSaas: CaseStudy = {
   decisions: [
     {
       tag: "routing",
-      title: "Three template trees, not one re-skin",
+      title: "Each template is its own component tree",
       decision:
-        "Each template is a genuinely separate component tree under src/components/<template>/ \u2014 25 components apiece, its own header, hero, property card, booking form and footer. Per page slot there are three implementations, resolved at render from the tenant's template field.",
-      why: "A per-tenant look that's more than swapped colours means each template needs to own its composition and markup, not just its tokens. Moderno's rounded, soft-shadowed editorial style and Luxo's sharp hairline-brass cards can't come from the same JSX with different variables.",
+        "A template is a genuinely separate component tree under src/components/<template>/ \u2014 25 components, its own header, hero, property card, booking form and footer. Three are built as a demonstrator set; each page slot has one implementation per template, resolved at render from the tenant's template field. Adding a fourth is a new folder and a registry entry, not a change to any route or service.",
+      why: "A per-tenant look that's more than swapped colours means each template needs to own its composition and markup, not just its tokens. Moderno's rounded, soft-shadowed editorial style and Luxo's sharp hairline-brass cards can't come from the same JSX with different variables \u2014 and the point of the seam is that a new client's design is a bounded job, not a fork.",
     },
     {
       tag: "scope",
       title: "Templates differ visually only",
       decision:
-        "The search filter, booking-form fields and validation, cancellation policy and reservation engine are identical across all three templates. Only presentation varies.",
-      why: "The map's first framing assumed functionality would vary per template too. It doesn't \u2014 the client had already fixed the business rules, and three parallel booking engines would have tripled the surface with no benefit. Correcting that early kept the shared core genuinely shared.",
+        "The search filter, booking-form fields and validation, cancellation policy and reservation engine are identical across every template. Only presentation varies.",
+      why: "The map's first framing assumed functionality would vary per template too. It doesn't \u2014 the client had already fixed the business rules, and a booking engine per template would have multiplied the surface with no benefit. Correcting that early kept the shared core genuinely shared.",
     },
     {
       tag: "theming",
@@ -169,18 +169,18 @@ const alojamentoLocalSaas: CaseStudy = {
     },
     { layer: "Backend", items: ["NestJS", "Prisma", "PostgreSQL", "JWT access + refresh", "@nestjs/schedule"] },
     { layer: "Payments", items: ["Stripe Checkout", "Stripe Connect (model chosen)"] },
-    { layer: "Media & i18n", items: ["S3-compatible storage (presigned upload)", "next-intl (PT / EN / ES / IT)", "Google Cloud Translation"] },
+    { layer: "Media & i18n", items: ["S3-compatible storage (presigned upload)", "next-intl (PT / EN / ES; IT for Vista Douro)", "Google Cloud Translation (listing copy)"] },
     { layer: "Integrations", items: ["iCal import + export per property", "node-ical"] },
     { layer: "SEO", items: ["sitemap / robots", "JSON-LD (Organization + LodgingBusiness)", "hreflang", "GA4 gated on consent"] },
     { layer: "Process & tooling", items: ["shared GitHub wayfinding map", "split repos (frontend / API)", "Docker Compose (Postgres)"] },
   ],
 
   stats: [
-    { value: "3", label: "template designs" },
+    { value: "3", label: "reference templates" },
     { value: "25", label: "components per template" },
     { value: "\u00d72", label: "independent config axes" },
     { value: "9", label: "shared routes" },
-    { value: "4", label: "supported locales" },
+    { value: "3", label: "locales per tenant" },
     { value: "7", label: "real pilot properties" },
   ],
   statsNote:
@@ -201,9 +201,9 @@ const alojamentoLocalSaas: CaseStudy = {
           "You can search, pick dates and guests, and reach a Stripe Checkout session \u2014 but there's no availability check against the iCal feeds, no booking record, no payment webhook and no confirmation email yet. The reservation engine is an open map on the project's tracker.",
       },
       {
-        claim: "three templates",
+        claim: "a choice of templates",
         reality:
-          "All three component trees are built and verified. YourSpot runs Moderno and Vista Douro runs Luxo; Cl\u00e1ssico is complete but has no tenant assigned to it.",
+          "Three component trees are built and verified \u2014 a demonstrator set for client conversations, not a fixed catalogue. YourSpot runs Moderno and Vista Douro runs Luxo; Cl\u00e1ssico is complete but has no tenant assigned to it.",
       },
       {
         claim: "per-tenant theming with no rebuild",
@@ -220,7 +220,7 @@ const alojamentoLocalSaas: CaseStudy = {
 
   cta: {
     blurb:
-      "Built with another developer as real client work. We ran a shared wayfinding map, worked out the template architecture and every major decision together, then divided the build \u2014 the multi-tenant seam, the theming axis and the backoffice among them.",
+      "Real client work, built by two developers. The template architecture \u2014 and the call to keep the prototype shortcut a shortcut \u2014 came out of a shared decision log before the build was split between us.",
   },
 };
 
