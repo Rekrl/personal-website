@@ -91,8 +91,6 @@ export interface MediaItem {
   /** path under /public for image|video, or the YouTube id for youtube */
   src: string;
   caption: string;
-  /** poster frame for a <video>, path under /public */
-  poster?: string;
 }
 
 export interface CaseLink {

@@ -24,6 +24,7 @@ export default function OtherWorkGrid() {
             key={work.name}
             type="button"
             aria-expanded={isOpen}
+            aria-label={`${work.name} — ${isOpen ? "hide" : "show"} details`}
             onClick={() => setOpen(isOpen ? null : i)}
             className={`text-left flex flex-col gap-3 bg-surface p-5 border border-border ${
               ACCENT_HOVER_BORDER[accent]

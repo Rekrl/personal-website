@@ -8,7 +8,7 @@ export const otherWork: OtherWork[] = [
   {
     name: "Cartógrafo",
     blurb:
-      "University AI project — route-finding across 18 Portuguese cities with four graph-search algorithms, licence-plate login via OCR, and a local LLM narrating each city's sights along the route.",
+      "University AI project — route-finding across 18 Portuguese cities with four graph-search algorithms (A*, uniform-cost, greedy, depth-limited), license-plate login via OCR, and a local LLM narrating each city's sights along the route.",
     stack: ["Python", "Streamlit", "EasyOCR", "Ollama / Mistral 7B", "OSRM"],
     status: "shipped",
     expandedDetail: [

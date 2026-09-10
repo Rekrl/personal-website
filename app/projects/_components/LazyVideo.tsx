@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 // Muted autoplay-loop clip that only mounts its <video> once it scrolls near
-// view — the case-study media grid holds several clips and one is ~10 MB, so
-// eager autoplay would pull all of them on load.
+// view, so a media grid with several clips doesn't fetch all of them on load.
 export default function LazyVideo({
   src,
   caption,
@@ -18,6 +17,9 @@ export default function LazyVideo({
   useEffect(() => {
     const el = ref.current;
     if (!el || show) return;
+    // No IntersectionObserver (very old browser, no polyfill): leave the
+    // placeholder rather than throwing — the clip just isn't essential.
+    if (typeof IntersectionObserver === "undefined") return;
     const io = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting) {

@@ -129,8 +129,7 @@ export default function Home() {
         <ProjectCards />
         <div className="mt-16">
           <p className="text-muted-4 text-sm mb-6 max-w-2xl leading-relaxed">
-            Also built, in less depth — coursework, team projects, and earlier
-            client work. Click to expand.
+            Also built — coursework, team projects, and earlier client work.
           </p>
           <OtherWorkGrid />
         </div>
