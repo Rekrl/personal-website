@@ -1,15 +1,11 @@
 import type { CaseStudy } from "./types";
 
-// Written from docs/research/urvox-dossier.md (branch research/urvox-dossier), a read
-// of the local source (C:\Users\nunog\Desktop\SmartCity) and the public repo Rekrl/urvox.
-// Correction from the dev, made after the dossier was written: the SEED of the idea
-// came from a course task, but that's all. Urvox is a solo project the dev has built
-// and keeps developing on their own, not the academic deliverable and not a group
-// project (the dossier's "Task 7 / group of four" framing over-reads a same-folder
-// assignment). Motivation: municipal decisions carry too much fog and civic
-// involvement barely exists between elections. Still in active development; next
-// direction is a real blockchain for the citizen wallet / accounts. Visual identity
-// canvas: claude.ai/design (Urvox Identidade Visual).
+// Written from docs/research/urvox-dossier.md (branch research/urvox-dossier) and the
+// public repo Rekrl/urvox. Dev correction, post-dossier: Urvox is the dev's own solo
+// project, still in development. NOT academic and NOT a group project: the dossier's
+// "Task 7 / group of four" section over-reads a same-folder course assignment; the
+// course task only seeded the idea. Next direction: a real blockchain for the citizen
+// wallet / accounts.
 
 const urvox: CaseStudy = {
   slug: "urvox",
@@ -20,7 +16,6 @@ const urvox: CaseStudy = {
   status: "prototype",
   role: "Solo \u00b7 my own project, still in active development",
   links: [{ label: "github.com/Rekrl/urvox", href: "https://github.com/Rekrl/urvox" }],
-  linksNote: "Public repository \u2014 clone it and run `npm install && npm run dev`; it self-seeds, no setup. No deployed demo.",
   metaDescription:
     "Urvox: a navigable prototype of a citizen\u2013city\u2013municipality hub built around a public SHA-256 hash-chained event ledger. The transparency model, the deliberate simplifications, and why it's a hash chain and not a blockchain \u2014 yet.",
   card: {
@@ -52,16 +47,16 @@ const urvox: CaseStudy = {
             "Urvox architecture, three layers: the browser polls Next.js route handlers; the handlers lazily start an in-process simulator that ticks every four seconds; the simulator mutates an in-memory store and appends a SHA-256 block to the ledger on each event. No database.",
           accentColor: "orange",
           tiers: [
-            { label: "browser", accent: "orange", x: 12, y: 26, w: 616, h: 76 },
-            { label: "next.js route handlers", accent: "cyan", x: 12, y: 142, w: 616, h: 76 },
-            { label: "in-process \u2014 no database", accent: "purple", x: 12, y: 258, w: 616, h: 88 },
+            { label: "browser", accent: "orange", x: 12, y: 24, w: 616, h: 76 },
+            { label: "next.js route handlers", accent: "cyan", x: 12, y: 144, w: 616, h: 76 },
+            { label: "in-process \u2014 no database", accent: "purple", x: 12, y: 264, w: 616, h: 88 },
           ],
           nodes: [
-            { id: "browser", x: 180, y: 42, w: 280, h: 44, label: ["browser \u2014 client pages", "poll 4\u20135s \u00b7 session in localStorage"] },
-            { id: "api", x: 180, y: 158, w: 280, h: 44, label: ["Next.js route handlers", "/api/bins /air /traffic /ledger \u2026"] },
-            { id: "store", x: 16, y: 278, w: 176, h: 52, label: ["store.ts", "globalThis \u00b7 in-memory"] },
-            { id: "sim", x: 232, y: 278, w: 160, h: 52, label: ["simulator.ts", "tick 4s \u00b7 seed + mutate"] },
-            { id: "ledger", x: 452, y: 278, w: 172, h: 52, label: ["ledger.ts", "SHA-256 \u00b7 append + verify"] },
+            { id: "browser", x: 180, y: 40, w: 280, h: 44, label: ["browser \u2014 client pages", "poll 4\u20135s \u00b7 session in localStorage"] },
+            { id: "api", x: 180, y: 160, w: 280, h: 44, label: ["Next.js route handlers", "/api/bins /air /traffic /ledger \u2026"] },
+            { id: "store", x: 16, y: 284, w: 172, h: 52, label: ["store.ts", "globalThis \u00b7 in-memory"] },
+            { id: "sim", x: 224, y: 284, w: 152, h: 52, label: ["simulator.ts", "tick 4s \u00b7 seed + mutate"] },
+            { id: "ledger", x: 456, y: 284, w: 168, h: 52, label: ["ledger.ts", "SHA-256 \u00b7 append + verify"] },
           ],
           edges: [
             { from: "sim", to: "store" },
@@ -101,7 +96,7 @@ const urvox: CaseStudy = {
     ],
     notes: [
       "Eight event types produce a ledger block: a bin going critical, a collection, a report created / in progress / resolved, a streetlight reported / repaired, and an air station going critical. Each block's data payload carries only ids, zone and category.",
-      "The landing page frames this pilot as phase zero of a longer roadmap the product sets for itself \u2014 real maps, a public chain, real sensors and cameras, a municipality admin channel, verified digital identity (Chave M\u00f3vel Digital), participatory budgeting, and an open-data API.",
+      "The landing page frames this as an early pilot with a longer roadmap the product sets for itself \u2014 real maps, a public chain, real sensors and cameras, a municipality admin channel, verified digital identity (Chave M\u00f3vel Digital), participatory budgeting, and an open-data API.",
     ],
   },
 
@@ -138,7 +133,7 @@ const urvox: CaseStudy = {
       tag: "honesty",
       title: "Every simplification is flagged in the UI",
       decision:
-        "Fourteen places in the interface state plainly what's simulated and what the real version would do \u2014 the sensors, the illustrated map, the local ledger, the symbolic login, the projected impact figures.",
+        "Four deliberate shortcuts \u2014 software-generated sensors, an illustrated map, a local in-memory ledger, and a symbolic login \u2014 and every screen that leans on one says so, in place, alongside a note on what the real version would do.",
       why: "A prototype that hides its seams teaches people to distrust the real thing later. Saying \u201cthis is simulated \u2014 here's what production would do\u201d is part of the pitch, not a disclaimer bolted onto it.",
     },
     {
@@ -183,7 +178,7 @@ const urvox: CaseStudy = {
   stats: [
     { value: "1", label: "Next.js app \u2014 front + back" },
     { value: "SHA-256", label: "hash-chain ledger" },
-    { value: "14", label: "simplifications flagged in the UI" },
+    { value: "4", label: "deliberate simplifications, each flagged" },
     { value: "8", label: "ledger event types" },
     { value: "0", label: "databases / API keys" },
     { value: "4s", label: "simulation tick" },
@@ -225,7 +220,7 @@ const urvox: CaseStudy = {
 
   cta: {
     blurb:
-      "My own project, still being built. The idea was sparked by a course exercise; everything since has been mine. It comes from a simple conviction: municipal decisions carry too much fog and civic involvement barely exists between elections. Next up is a real blockchain for the citizen wallet and accounts.",
+      "My own project \u2014 built solo, still in development, outside any academic or client brief. The idea was seeded by a course exercise; everything since has been mine. Next up: a real blockchain for the citizen wallet and accounts.",
   },
 };
 
