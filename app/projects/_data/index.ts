@@ -1,6 +1,7 @@
 import type { CaseStudy } from "./types";
 import iiot from "./industrial-iot-platform";
 import alojamentoLocalSaas from "./alojamento-local-saas";
+import softskills from "./softskills";
 
 export type { CaseStudy } from "./types";
 
@@ -10,7 +11,8 @@ export type { CaseStudy } from "./types";
 export const caseStudies: CaseStudy[] = [
   iiot,
   alojamentoLocalSaas,
-  // softskills, urvox — one build ticket each on wayfinder map #1
+  softskills,
+  // urvox — one build ticket on wayfinder map #1
 ];
 
 export const caseStudySlugs: string[] = caseStudies.map((c) => c.slug);
