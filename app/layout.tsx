@@ -30,7 +30,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Nuno Santos — Full-Stack Developer",
   description:
-    "Full-stack developer from Portugal. AI enthusiast, IoT builder, and computer science student graduating July 2026.",
+    "Full-stack developer from Portugal. AI enthusiast and IoT builder.",
 };
 
 export default function RootLayout({

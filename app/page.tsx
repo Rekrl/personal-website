@@ -73,7 +73,7 @@ export default function Home() {
           </p>
           <p className="text-muted-4 mb-12 flex items-center gap-3 text-sm">
             <span className="inline-block w-2 h-2 rounded-full bg-cyan blink" />
-            Portugal 🇵🇹 · Graduating July 2026
+            Portugal 🇵🇹
           </p>
           <div className="flex gap-4 flex-wrap">
             <a
@@ -109,7 +109,7 @@ export default function Home() {
           01 / about
         </p>
         <p className="text-xl md:text-2xl text-muted-1 leading-relaxed">
-          Final-year CS student finishing July 2026 with a{" "}
+          A{" "}
           <span className="text-cyan">passion for building things</span>{" "}
           that mix software with the physical world — from IoT edge systems to
           full-stack web platforms.
