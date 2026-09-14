@@ -36,6 +36,17 @@ yarn-error.log*
 # vercel
 .vercel
 
+# agent skills (kept local, restore with: npx skills@latest experimental_install)
+/.claude/skills/
+/.agents/
+/agent/
+/skills-lock.json
+
+# agent instructions/docs (kept local)
+/AGENTS.md
+/CLAUDE.md
+/docs/agents/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
