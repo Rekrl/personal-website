@@ -2,6 +2,13 @@
 
 export const THEME_CHANGE_EVENT = "themechange";
 
+export function currentTheme(): "dark" | "light" {
+  if (typeof document === "undefined") return "dark";
+  return document.documentElement.getAttribute("data-theme") === "light"
+    ? "light"
+    : "dark";
+}
+
 function toggleTheme() {
   const root = document.documentElement;
   const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";

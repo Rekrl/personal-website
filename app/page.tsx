@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ParticleNetwork from "./components/ParticleNetwork";
 import ThemeToggle from "./components/ThemeToggle";
+import KonamiEasterEgg from "./components/KonamiEasterEgg";
 import ProjectCards from "./projects/_components/ProjectCards";
 import OtherWorkGrid from "./projects/_components/OtherWorkGrid";
 import { flatSkills } from "./_data/skills";
@@ -8,11 +9,14 @@ import { flatSkills } from "./_data/skills";
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground font-mono">
+      <KonamiEasterEgg />
+
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 px-6 md:px-16 py-4 flex items-center justify-between border-b border-border bg-nav backdrop-blur-sm">
         <span
           className="glitch text-cyan font-bold text-lg tracking-widest"
           data-text="ns."
+          data-konami-trigger
         >
           ns.
         </span>
@@ -177,7 +181,13 @@ export default function Home() {
       </section>
 
       <footer className="px-6 md:px-16 py-6 border-t border-border text-muted-6 text-xs flex justify-between">
-        <span>Nuno Santos · 2026</span>
+        <span>
+          Nuno Santos · 2026{" "}
+          <span className="konami-hint select-text hidden sm:inline">
+            {" "}
+            · hint: use the konami code ↑↑↓↓←→←→BA
+          </span>
+        </span>
         <span>Built with Next.js + TypeScript</span>
       </footer>
     </main>
