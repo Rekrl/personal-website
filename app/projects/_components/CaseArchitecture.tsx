@@ -1,5 +1,5 @@
 import type { CaseStudy } from "../_data/types";
-import SectionLabel from "./SectionLabel";
+import SectionLabel from "../../components/SectionLabel";
 import ArchitectureDiagram from "./ArchitectureDiagram";
 
 export default function CaseArchitecture({

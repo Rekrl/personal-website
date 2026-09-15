@@ -1,5 +1,5 @@
 import type { MediaItem } from "../_data/types";
-import SectionLabel from "./SectionLabel";
+import SectionLabel from "../../components/SectionLabel";
 import LazyVideo from "./LazyVideo";
 
 function Item({ item }: { item: MediaItem }) {

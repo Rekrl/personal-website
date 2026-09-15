@@ -1,6 +1,6 @@
 import type { Accent, Stat } from "../_data/types";
 import { ACCENT_TEXT, ACCENT_HOVER_BORDER } from "./accents";
-import SectionLabel from "./SectionLabel";
+import SectionLabel from "../../components/SectionLabel";
 
 export default function CaseStats({
   n,
