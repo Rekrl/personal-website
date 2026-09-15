@@ -1,6 +1,6 @@
 import type { Accent, Decision } from "../_data/types";
 import { ACCENT_TEXT } from "./accents";
-import SectionLabel from "./SectionLabel";
+import SectionLabel from "../../components/SectionLabel";
 
 export default function CaseDecisions({
   n,

@@ -1,4 +1,4 @@
-import SectionLabel from "./SectionLabel";
+import SectionLabel from "../../components/SectionLabel";
 
 export default function CaseOverview({
   n,

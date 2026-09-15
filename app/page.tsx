@@ -1,28 +1,9 @@
+import Link from "next/link";
 import ParticleNetwork from "./components/ParticleNetwork";
 import ThemeToggle from "./components/ThemeToggle";
 import ProjectCards from "./projects/_components/ProjectCards";
 import OtherWorkGrid from "./projects/_components/OtherWorkGrid";
-
-const stack = [
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "FastAPI",
-  "PHP",
-  "Python",
-  "C/C++",
-  "PostgreSQL",
-  "MongoDB",
-  "InfluxDB",
-  "MySQL",
-  "Docker",
-  "Git",
-  "MQTT",
-  "ESP32",
-  "Linux",
-];
+import { flatSkills } from "./_data/skills";
 
 export default function Home() {
   return (
@@ -119,6 +100,12 @@ export default function Home() {
           solves real problems. Background in competitive basketball — deadlines
           and pressure are nothing new.
         </p>
+        <Link
+          href="/about"
+          className="inline-block mt-6 text-sm text-cyan hover:text-magenta transition-colors"
+        >
+          more about me →
+        </Link>
       </section>
 
       {/* Projects */}
@@ -141,7 +128,7 @@ export default function Home() {
           03 / stack
         </p>
         <div className="flex flex-wrap gap-3">
-          {stack.map((s) => (
+          {flatSkills.map((s) => (
             <span
               key={s}
               className="border border-border px-3 py-2 text-sm text-muted-3 hover:border-magenta hover:text-magenta transition-colors cursor-default"
