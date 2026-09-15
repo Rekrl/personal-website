@@ -1,7 +1,12 @@
+import { Suspense } from "react";
 import ParticleNetwork from "./components/ParticleNetwork";
 import ThemeToggle from "./components/ThemeToggle";
 import ProjectCards from "./projects/_components/ProjectCards";
 import OtherWorkGrid from "./projects/_components/OtherWorkGrid";
+import {
+  GithubHeatmapStackSlot,
+  GithubHeatmapStandalone,
+} from "./components/_prototype/GithubHeatmapPrototype";
 
 const stack = [
   "JavaScript",
@@ -150,7 +155,14 @@ export default function Home() {
             </span>
           ))}
         </div>
+        <Suspense fallback={null}>
+          <GithubHeatmapStackSlot />
+        </Suspense>
       </section>
+
+      <Suspense fallback={null}>
+        <GithubHeatmapStandalone />
+      </Suspense>
 
       {/* Contact */}
       <section
