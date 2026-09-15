@@ -4,6 +4,7 @@ import ThemeToggle from "./components/ThemeToggle";
 import KonamiEasterEgg from "./components/KonamiEasterEgg";
 import ProjectCards from "./projects/_components/ProjectCards";
 import OtherWorkGrid from "./projects/_components/OtherWorkGrid";
+import GithubHeatmap from "./components/GithubHeatmap";
 import { flatSkills } from "./_data/skills";
 
 export default function Home() {
@@ -141,6 +142,7 @@ export default function Home() {
             </span>
           ))}
         </div>
+        <GithubHeatmap />
       </section>
 
       {/* Contact */}
