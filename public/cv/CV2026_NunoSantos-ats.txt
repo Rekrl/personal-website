@@ -1,0 +1,78 @@
+NUNO SANTOS
+Computer Science & Engineering — Full-Stack & IoT Developer
+Viseu, Portugal | +351-912012992 | nunogoncalobsantos@gmail.com
+linkedin.com/in/nunogonsantos | github.com/Rekrl
+
+PROFILE
+Computer Science & Engineering student with a Level-5 Technical Specialist
+qualification in Management Information Systems. Full-stack and IoT developer
+who most recently built an end-to-end Industrial IoT platform — from edge
+firmware to real-time dashboards and anomaly detection — during a software
+engineering internship with the STAR Institute. Comfortable across the stack
+(React, Node.js, Flutter, Python/FastAPI, embedded C++), with a genuine
+interest in practical AI applications and smart-city / IoT systems that
+connect software to the physical world. Excellent communicator with
+near-native English, fast learner, and strong problem-solving skills honed
+through 5+ years of competitive basketball.
+
+EXPERIENCE
+
+Software Engineering Intern (IIoT Platform) — Feb 2026 - Jun 2026
+STAR Institute - Science Technology Applied Research, Viseu, Portugal
+- Designed a three-tier (Edge / Platform / Business) architecture for an
+  end-to-end IIoT platform, containerized with Docker
+- Built C++ (PlatformIO) firmware on ESP32-S3 edge devices collecting
+  energy, vibration and environmental data over Modbus RTU/RS-485 and I2C
+- Developed a Node.js MQTT-to-InfluxDB pipeline with sensor-agnostic
+  parsers, a real-time Socket.io dashboard, and a Python/FastAPI service
+  for statistical anomaly detection
+
+Professional Internship — 2023
+Tek4You
+- Diagnosed and repaired PCs/laptops, installed accessories and provided
+  in-store technical support
+- Built and deployed the company's official website with product catalog
+  and WhatsApp API integration
+- Assisted customers and managed stock in a retail environment
+
+Retail & Warehouse Operator — 2018 - 2022
+Jeronimo Martins - Pingo Doce
+- Customer service, cash register operation and shop floor support
+- Warehouse management, inventory counts and product display optimisation
+- Excelled in high-pressure environments and team coordination
+
+PROJECTS
+
+IIoT Trace
+Industrial IoT platform for real-time monitoring & predictive maintenance,
+built with STAR Institute.
+Stack: ESP32-S3, MQTT, InfluxDB, FastAPI, Docker
+
+E-Learning Platform
+Integrated project (Grade: 19/20). Full-stack e-learning web + mobile app.
+Stack: React, Node.js, Flutter, PostgreSQL
+
+Tek4You Website
+Official showcase & contact site for an IT retail store, with product
+catalog.
+Stack: Business Site, WhatsApp API
+
+EDUCATION
+
+Computer Science and Engineering — 2023 - 2026
+Instituto Politecnico de Viseu
+
+Technical Specialist - Mgmt. Informatics Applications (Level 5) — 2022 - 2023
+Cesae Digital
+
+SKILLS
+Languages: JavaScript (ES6+), Python, C/C++, PHP, Dart
+Frontend: React, Bootstrap, HTML5/CSS3, Flutter
+Backend: Node.js, Express, Socket.io, FastAPI, PHP
+IoT / Embedded: ESP32-S3, PlatformIO, MQTT, Modbus RTU/RS-485, I2C
+Data / Ops: InfluxDB, PostgreSQL, MySQL, MongoDB, Docker
+
+LANGUAGES
+Portuguese: Native
+English: Near-native (C2)
+French: Fluent speaking
