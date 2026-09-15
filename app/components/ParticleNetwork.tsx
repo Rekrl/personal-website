@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { THEME_CHANGE_EVENT } from "./ThemeToggle";
+import { THEME_CHANGE_EVENT, currentTheme } from "./ThemeToggle";
 
 interface Particle {
   x: number;
@@ -25,13 +25,6 @@ const PALETTES: Record<"dark" | "light", { dots: string[]; line: string }> = {
     line: "14, 116, 144",
   },
 };
-
-function currentTheme(): "dark" | "light" {
-  if (typeof document === "undefined") return "dark";
-  return document.documentElement.getAttribute("data-theme") === "light"
-    ? "light"
-    : "dark";
-}
 
 export default function ParticleNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
