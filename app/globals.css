@@ -228,6 +228,16 @@ body::after {
   50% { opacity: 0; }
 }
 
+/* PROTOTYPE (ticket #18): hint text invisible against the background,
+   revealed only when selected/highlighted. */
+.konami-hint {
+  color: var(--background);
+}
+.konami-hint::selection {
+  color: var(--accent-cyan);
+  background: rgba(0, 255, 255, 0.3);
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 3px;

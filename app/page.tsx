@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import ParticleNetwork from "./components/ParticleNetwork";
 import ThemeToggle from "./components/ThemeToggle";
 import ProjectCards from "./projects/_components/ProjectCards";
 import OtherWorkGrid from "./projects/_components/OtherWorkGrid";
+import KonamiMatrixRainPrototype from "./components/_prototype/KonamiMatrixRainPrototype";
 
 const stack = [
   "JavaScript",
@@ -27,6 +29,10 @@ const stack = [
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground font-mono">
+      <Suspense fallback={null}>
+        <KonamiMatrixRainPrototype />
+      </Suspense>
+
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 px-6 md:px-16 py-4 flex items-center justify-between border-b border-border bg-nav backdrop-blur-sm">
         <span
@@ -190,7 +196,13 @@ export default function Home() {
       </section>
 
       <footer className="px-6 md:px-16 py-6 border-t border-border text-muted-6 text-xs flex justify-between">
-        <span>Nuno Santos · 2026</span>
+        <span>
+          Nuno Santos · 2026{" "}
+          <span className="konami-hint select-text">
+            {" "}
+            · hint: use the konami code ↑↑↓↓←→←→BA
+          </span>
+        </span>
         <span>Built with Next.js + TypeScript</span>
       </footer>
     </main>
